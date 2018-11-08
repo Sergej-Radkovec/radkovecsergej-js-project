@@ -41,7 +41,8 @@
   function Unit() {
     const self = this;
     const unitSize = 50;
-    const speed = 5;
+    const speed = 1;
+    self.way = [];
 
     function setRandomPos() {
       const random = Math.random();
@@ -103,8 +104,7 @@
     units.forEach(value => value.update());
   }
 
-  //Изменяем положение обьектов без задания траектории
-
+  // Изменяем положение обьектов без задания траектории
   function posBall(elem) {
     elem.posX += elem.speedX;
     if (elem.posX < 0) {
@@ -122,5 +122,18 @@
     }
     elem.update();
   }
-
+  // добавление траектории
+  document.addEventListener('mousedown', (event) => {
+    document.addEventListener('mousemove', setWay);
+    function setWay(e) {
+      units.forEach((unit) => {
+        if (event.target === unit.obj) {
+          let x = e.pageX;
+          let y = e.pageY;
+          unit.way.push([x, y]);
+        }
+      });
+    }
+    document.addEventListener('mouseup', () => document.removeEventListener('mousemove', setWay));
+  });
 })();
