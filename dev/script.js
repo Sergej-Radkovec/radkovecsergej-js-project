@@ -4,12 +4,13 @@
   const startButton = document.getElementById('start');
   const canvas = document.querySelector('#canvas');
   const ctx = canvas.getContext('2d');
+  const wrapper = document.getElementById('wrapper');
 
   let units = [];
 
   let playing = false;
-  const frequency = 25;
-  const generateSpeed = 5000;
+  const frequency = 15;
+  const generateSpeed = 4500;
   let timeGame = 0;
 
   canvas.width = window.innerWidth;
@@ -33,13 +34,14 @@
         generateUnit();
         console.log(units);
       }
+      units.forEach(unit => posBall(unit));
     }
   }
   // конструктор юнитов
   function Unit() {
     const self = this;
-    const unitSize = 10;
-    const speed = 10;
+    const unitSize = 50;
+    const speed = 5;
 
     function setRandomPos() {
       const random = Math.random();
@@ -72,13 +74,53 @@
         self.speedY *= -1;
       }
     }
+// временно создаем шарик вместо самолёта
+
+
+    function createBall() {
+      const ballObj = document.createElement('div');
+      ballObj.style.position = 'absolute';
+      ballObj.style.backgroundColor = '#F02137';
+      ballObj.style.borderRadius = '50%';
+      ballObj.style.width = 50 + 'px';
+      ballObj.style.height = 50 + 'px';
+      wrapper.appendChild(ballObj);
+      self.obj = ballObj;
+    }
+
+    self.update = function () {
+      self.obj.style.left = self.posX + 'px';
+      self.obj.style.top = self.posY + 'px';
+    };
 
     setRandomPos();
     setRandomDirection();
+    createBall();
   }
   // генерируем юниты
   function generateUnit() {
     units.push(new Unit());
+    units.forEach(value => value.update());
+  }
+
+  //Изменяем положение обьектов без задания траектории
+
+  function posBall(elem) {
+    elem.posX += elem.speedX;
+    if (elem.posX < 0) {
+      elem.speedX *= -1;
+    }
+    if (elem.posX > window.innerWidth) {
+      elem.speedX *= -1;
+    }
+    elem.posY += elem.speedY;
+    if (elem.posY < 0) {
+      elem.speedY *= -1;
+    }
+    if (elem.posY > window.innerHeight) {
+      elem.speedY *= -1;
+    }
+    elem.update();
   }
 
 })();
