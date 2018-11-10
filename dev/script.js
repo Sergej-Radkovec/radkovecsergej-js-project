@@ -10,7 +10,7 @@
 
   let playing = false;
   const frequency = 15;
-  const generateSpeed = 4500000;
+  const generateSpeed = frequency * 1000;
   let timeGame = 0;
 
   canvas.width = window.innerWidth;
@@ -32,9 +32,13 @@
       timeGame += frequency;
       if (timeGame % generateSpeed === 0 || timeGame === frequency) {
         generateUnit();
-        generateUnit();
       }
-      units.forEach(unit => posBall(unit));
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      units.forEach((unit) => {
+        posBall(unit);
+        drawWay(unit);
+
+      });
     }
   }
   // конструктор юнитов
@@ -90,7 +94,7 @@
     }
 
     self.update = function () {
-      self.obj.style.left = self.posX + 'px';
+      self.obj.style.left = self.posX  + 'px';
       self.obj.style.top = self.posY + 'px';
     };
 
@@ -110,29 +114,25 @@
     let cutLength;
     let sin;
     let cos;
-    let posEnd;
-
+    let posEnd = elem.way[0];
 
     if (elem.way.length) {
-      posEnd = elem.way[0];
       cutLength = Math.sqrt((posEnd[0] - elem.posX) * (posEnd[0] - elem.posX)
         + (posEnd[1] - elem.posY) * (posEnd[1] - elem.posY));
       sin = (posEnd[0] - elem.posX) / cutLength;
       cos = (posEnd[1] - elem.posY) / cutLength;
-      if (elem.speed < cutLength) {
+      if (elem.speed > cutLength && elem.way.length > 2) {
+        let posStart = elem.way.shift();
+        let remained = elem.speed - cutLength;
+        cutLength = Math.sqrt((posEnd[0] - elem.posX) * (posEnd[0] - elem.posX)
+          + (posEnd[1] - elem.posY) * (posEnd[1] - elem.posY));
+        sin = (posEnd[0] - posStart[0]) / cutLength;
+        cos = (posEnd[1] - posStart[1]) / cutLength;
+        elem.speedX = sin * remained;
+        elem.speedX = cos * remained;
+      } else {
         elem.speedX = sin * elem.speed;
         elem.speedY = cos * elem.speed;
-      } else {
-        let posStart = elem.way.shift();
-        if (elem.way.length) {
-          posEnd = elem.way[0];
-          cutLength = Math.sqrt((posEnd[0] - elem.posX) * (posEnd[0] - elem.posX)
-            + (posEnd[1] - elem.posY) * (posEnd[1] - elem.posY));
-          sin = (posEnd[0] - posStart[0]) / cutLength;
-          cos = (posEnd[1] - posStart[1]) / cutLength;
-          elem.speedX = sin * (cutLength - elem.speed);
-          elem.speedX = cos * (cutLength - elem.speed);
-        }
       }
     }
 
@@ -154,24 +154,39 @@
     elem.update();
   }
   // добавление траектории
+  let target;
   document.addEventListener('mousedown', (event) => {
     event = event || window.event;
     event.preventDefault();
 
     units.forEach(unit => {
       if (event.target === unit.obj) {
+        unit.way = [];
+        target = unit;
         document.addEventListener('mousemove', setWay);
       }
     });
     document.addEventListener('mouseup', () => {document.removeEventListener('mousemove', setWay)});
   });
-
   function setWay(e) {
     e = e || window.event;
     e.preventDefault();
     let x = e.pageX;
     let y = e.pageY;
-    unit.way.push([x, y]);
+    target.way.push([x, y]);
+  }
+
+  function drawWay(unit) {
+    if (unit.way.length) {
+      ctx.strokeStyle = 'black';
+      ctx.lineWidth = 2;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.beginPath();
+      ctx.moveTo(unit.posX, unit.posY);
+      unit.way.forEach(pos => ctx.lineTo(pos[0], pos[1]));
+      ctx.stroke();
+    }
   }
 })();
 
