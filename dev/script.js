@@ -6,7 +6,7 @@
   const ctx = canvas.getContext('2d');
   const wrapper = document.getElementById('wrapper');
 
-  let units = [];
+  const units = [];
 
   let playing = false;
   const frequency = 15;
@@ -15,6 +15,7 @@
 
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
+  canvas.style.position = 'absolute';
 
   function startGame() {
     startButton.style.display = 'none';
@@ -37,14 +38,14 @@
       units.forEach((unit) => {
         posBall(unit);
         drawWay(unit);
-
       });
+      findCrash();
     }
   }
   // конструктор юнитов
   function Unit() {
     const self = this;
-    const unitSize = 50;
+    self.unitSize = 50;
     self.speed = 0.5;
     self.way = [];
 
@@ -55,11 +56,11 @@
         self.posX = perimeter * random;
         self.posY = 0;
       } else if (perimeter * random < window.innerWidth + window.innerHeight) {
-        self.posX = window.innerWidth - unitSize;
+        self.posX = window.innerWidth - self.unitSize;
         self.posY = perimeter * random - window.innerWidth;
       } else if (perimeter * random < window.innerWidth * 2 + window.innerHeight) {
         self.posX = window.innerWidth * 2 + window.innerHeight - perimeter * random;
-        self.posY = window.innerHeight - unitSize;
+        self.posY = window.innerHeight - self.unitSize;
       } else {
         self.posX = 0;
         self.posY = perimeter - perimeter * random;
@@ -80,15 +81,14 @@
       }
     }
 // временно создаем шарик вместо самолёта
-
-
     function createBall() {
       const ballObj = document.createElement('div');
       ballObj.style.position = 'absolute';
       ballObj.style.backgroundColor = '#F02137';
       ballObj.style.borderRadius = '50%';
-      ballObj.style.width = 50 + 'px';
-      ballObj.style.height = 50 + 'px';
+      ballObj.style.width = self.unitSize + 'px';
+      ballObj.style.height = self.unitSize + 'px';
+      ballObj.style.transform = 'translate(-50%, -50%)';
       wrapper.appendChild(ballObj);
       self.obj = ballObj;
     }
@@ -176,6 +176,8 @@
     });
     document.addEventListener('mouseup', () => {document.removeEventListener('mousemove', setWay)});
   });
+
+  // сетаем координаты
   function setWay(e) {
     e = e || window.event;
     e.preventDefault();
@@ -184,6 +186,7 @@
     target.way.push([x, y]);
   }
 
+  // рисуем путь юнита
   function drawWay(unit) {
     if (unit.way.length) {
       ctx.strokeStyle = 'black';
@@ -196,7 +199,19 @@
       ctx.stroke();
     }
   }
+
+  // поиск сталкновений
+  function findCrash() {
+    const length = units.length;
+    for (let i = 0; i < length; i++) {
+      for (let j = i + 1; j < length; j++) {
+        const distX = Math.abs(units[j].posX - units[i].posX);
+        const distY = Math.abs(units[j].posY - units[i].posY);
+        const ultraDist = units[j].unitSize / 2 + units[j].unitSize / 2;
+        if (distX < ultraDist && distY < ultraDist) {
+          playing = false;
+        }
+      }
+    }
+  }
 })();
-
-
-
