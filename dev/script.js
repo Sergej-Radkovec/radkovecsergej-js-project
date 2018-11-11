@@ -114,30 +114,38 @@
     let cutLength;
     let sin;
     let cos;
-    let posEnd = elem.way[0];
+    const posEnd = elem.way[0];
 
-    if (elem.way.length) {
+    if (!elem.way.length) {
+      elem.posX += elem.speedX;
+      elem.posY += elem.speedY;
+    } else {
       cutLength = Math.sqrt((posEnd[0] - elem.posX) * (posEnd[0] - elem.posX)
         + (posEnd[1] - elem.posY) * (posEnd[1] - elem.posY));
       sin = (posEnd[0] - elem.posX) / cutLength;
       cos = (posEnd[1] - elem.posY) / cutLength;
-      if (elem.speed > cutLength && elem.way.length > 2) {
-        let posStart = elem.way.shift();
-        let remained = elem.speed - cutLength;
-        cutLength = Math.sqrt((posEnd[0] - elem.posX) * (posEnd[0] - elem.posX)
-          + (posEnd[1] - elem.posY) * (posEnd[1] - elem.posY));
-        sin = (posEnd[0] - posStart[0]) / cutLength;
-        cos = (posEnd[1] - posStart[1]) / cutLength;
-        elem.speedX = sin * remained;
-        elem.speedX = cos * remained;
-      } else {
+      if (cutLength > elem.speed) {
         elem.speedX = sin * elem.speed;
         elem.speedY = cos * elem.speed;
+        elem.posX += elem.speedX;
+        elem.posY += elem.speedY;
+      } else {
+        if (elem.way.length === 1) {
+          elem.way.shift();
+          elem.posX += elem.speedX;
+          elem.posY += elem.speedY;
+        } else {
+          const posStart = elem.way.shift();
+          const remained = elem.speed - cutLength;
+          cutLength = Math.sqrt((posEnd[0] - elem.posX) * (posEnd[0] - elem.posX)
+            + (posEnd[1] - elem.posY) * (posEnd[1] - elem.posY));
+          sin = (posEnd[0] - posStart[0]) / cutLength;
+          cos = (posEnd[1] - posStart[1]) / cutLength;
+          elem.posX = posStart[0] + sin * remained;
+          elem.posY = posStart[1] + cos * remained;
+        }
       }
     }
-
-    elem.posX += elem.speedX;
-    elem.posY += elem.speedY;
 
     if (elem.posX < 0) {
       elem.speedX *= -1;
