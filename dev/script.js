@@ -6,48 +6,39 @@
   const ctx = canvas.getContext('2d');
   const wrapper = document.getElementById('wrapper');
 
-  const units = [];
-
-  let playing = false;
-  const frequency = 15;
-  const generateSpeed = frequency * 1000;
-  let timeGame = 0;
-
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
   canvas.style.position = 'absolute';
+ ;
 
-  function startGame() {
-    startButton.style.display = 'none';
-    if (playing === false) {
-      playing = true;
-    }
-  }
+  const units = [];
 
-  startButton.addEventListener('click', startGame, false);
+  const scores = {
+    scores: 0,
+    update() {
+      const scoresObj = document.getElementById('scores');
+      scoresObj.textContent = `${this.scores}`;
+    },
+  };
 
-  setInterval(game, frequency);
+  const base = {
+    size: 150,
+    posX: 300,
+    posY: 500,
+  };
 
-  function game() {
-    if (playing) {
-      timeGame += frequency;
-      if (timeGame % generateSpeed === 0 || timeGame === frequency) {
-        generateUnit();
-      }
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      units.forEach((unit) => {
-        posBall(unit);
-        drawWay(unit);
-      });
-      findCrash();
-    }
-  }
+  let playing = false;
+  const frequency = 15;
+  const generateSpeed = frequency * 250;
+  let timeGame = 0;
+
   // конструктор юнитов
   function Unit() {
     const self = this;
     self.unitSize = 50;
-    self.speed = 0.5;
+    self.speed = 1;
     self.way = [];
+    self.onBase = false;
 
     function setRandomPos() {
       const random = Math.random();
@@ -94,7 +85,7 @@
     }
 
     self.update = function () {
-      self.obj.style.left = self.posX  + 'px';
+      self.obj.style.left = self.posX + 'px';
       self.obj.style.top = self.posY + 'px';
     };
 
@@ -102,6 +93,59 @@
     setRandomDirection();
     createBall();
   }
+
+  function createScores() {
+    const scoresObj = document.createElement('p');
+    scoresObj.id = 'scores';
+    scoresObj.style.position = 'absolute';
+    scoresObj.style.fontSize = '40px';
+    wrapper.appendChild(scoresObj);
+  }
+
+  function createBase() {
+    const baseObj = document.createElement('div');
+    baseObj.style.position = 'absolute';
+    baseObj.style.backgroundColor = '#5860f0';
+    baseObj.style.borderRadius = '35%';
+    baseObj.style.width = `${base.size}px`;
+    baseObj.style.height = `${base.size}px`;
+    baseObj.style.left = `${base.posX}px`;
+    baseObj.style.top = `${base.posY}px`;
+    baseObj.style.transform = 'translate(-50%, -50%)';
+    baseObj.style.zIndex = '-1';
+    wrapper.appendChild(baseObj);
+  }
+
+  function startGame() {
+    startButton.style.display = 'none';
+    if (playing === false) {
+      playing = true;
+    }
+    createScores();
+    createBase();
+  }
+
+  startButton.addEventListener('click', startGame, false);
+
+  setInterval(game, frequency);
+
+  function game() {
+    if (playing) {
+      timeGame += frequency;
+      if (timeGame % generateSpeed === 0 || timeGame === frequency) {
+        generateUnit();
+      }
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      units.forEach((unit, index) => {
+        posBall(unit);
+        drawWay(unit);
+        unitOnBase(unit, index);
+      });
+      scores.update();
+      findCrash();
+    }
+  }
+
   // генерируем юниты
   function generateUnit() {
     units.push(new Unit());
@@ -109,7 +153,6 @@
   }
 
   // Изменяем положение обьектов
-
   function posBall(elem) {
     let cutLength;
     let sin;
@@ -169,12 +212,13 @@
 
     units.forEach(unit => {
       if (event.target === unit.obj) {
+        unit.onBase = false;
         unit.way = [];
         target = unit;
         document.addEventListener('mousemove', setWay);
       }
     });
-    document.addEventListener('mouseup', () => {document.removeEventListener('mousemove', setWay)});
+    document.addEventListener('mouseup', () => document.removeEventListener('mousemove', setWay));
   });
 
   // сетаем координаты
@@ -184,12 +228,20 @@
     let x = e.pageX;
     let y = e.pageY;
     target.way.push([x, y]);
+    if (Math.abs(x - base.posX) < base.size / 4 && Math.abs(y - base.posY) < base.size / 4) {
+      target.onBase = true;
+      document.removeEventListener('mousemove', setWay);
+    }
   }
 
   // рисуем путь юнита
   function drawWay(unit) {
     if (unit.way.length) {
-      ctx.strokeStyle = 'black';
+      if (unit.onBase) {
+        ctx.strokeStyle = 'grey';
+      } else {
+        ctx.strokeStyle = 'black';
+      }
       ctx.lineWidth = 2;
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
@@ -207,11 +259,19 @@
       for (let j = i + 1; j < length; j++) {
         const distX = Math.abs(units[j].posX - units[i].posX);
         const distY = Math.abs(units[j].posY - units[i].posY);
-        const ultraDist = units[j].unitSize / 2 + units[j].unitSize / 2;
+        const ultraDist = units[i].unitSize / 2 + units[j].unitSize / 2;
         if (distX < ultraDist && distY < ultraDist) {
           playing = false;
         }
       }
+    }
+  }
+
+  function unitOnBase(unit, index) {
+    if (unit.onBase && unit.way.length === 0) {
+      unit.obj.remove();
+      delete units[index];
+      scores.scores += 1;
     }
   }
 })();
