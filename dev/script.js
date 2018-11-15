@@ -270,7 +270,7 @@
   function unitOnBase(unit, index) {
     if (unit.onBase && unit.way.length === 0) {
       unit.obj.remove();
-      delete units[index];
+      units.splice(index, 1);
       scores.scores += 1;
     }
   }
