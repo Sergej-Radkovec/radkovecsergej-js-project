@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
   <head>
     <meta charset="UTF-8">
     <title>Air control</title>
@@ -7,9 +7,20 @@
   </head>
   <body>
     <div id="wrapper">
-      <canvas id="canvas"></canvas>
-      <button id="start">Старт</button>
+      <canvas id="canvas">Если вы видите это сообщение, то у вас не поддерживается Canvas. Обновите браузер.</canvas>
+      <div id="menu">
+        <input type="text" placeholder="Введите Ваше имя" id='userName'>
+        <input type="button" value="Запомнить меня" id='storeUserName'>
+        <input type="button" value="Таблица рекордов" id='showRecords'>
+        <ul>
+          <li>1. Рисуйте траекторию для посадки</li>
+          <li>2. После посадки добавляються очки</li>
+          <li>3. При столкновении игра заканчивается.</li>
+        </ul>
+        <input type="button" value="Старт" id="start" onclick="switchToGame()">
+      </div>
     </div>
+    <script src="SPA.js"></script>
     <script src="script.js"></script>
   </body>
 </html>

@@ -4,6 +4,22 @@ body, html {
     overflow: hidden;
 }
 
-#start {
+#menu {
     position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid cornflowerblue;
+    border-radius: 20px;
+    background-color: cornflowerblue;
+    padding: 20px;
+}
+
+#storeUserName, #showRecords, #start, #userName {
+    display: block;
+    margin: 5px auto;
+    background-color: rgba(173, 255, 47, 0.57);
+    border: 1px solid greenyellow;
+    border-radius: 20px;
+    text-align: center;
 }

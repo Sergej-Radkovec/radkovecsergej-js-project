@@ -9,7 +9,6 @@
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
   canvas.style.position = 'absolute';
- ;
 
   const units = [];
 
@@ -117,7 +116,6 @@
   }
 
   function startGame() {
-    startButton.style.display = 'none';
     if (playing === false) {
       playing = true;
     }
