@@ -2,6 +2,10 @@
 
 (function () {
   const startButton = document.getElementById('start');
+  const title = document.getElementById('title');
+  const userName = document.getElementById('userName');
+  const storeUserNameButton = document.getElementById('storeUserName');
+  const gameObj = document.getElementById('game');
   const canvas = document.querySelector('#canvas');
   const ctx = canvas.getContext('2d');
   const wrapper = document.getElementById('wrapper');
@@ -10,7 +14,7 @@
   canvas.height = window.innerHeight;
   canvas.style.position = 'absolute';
 
-  const units = [];
+  let units = [];
 
   const scores = {
     scores: 0,
@@ -93,14 +97,6 @@
     createBall();
   }
 
-  function createScores() {
-    const scoresObj = document.createElement('p');
-    scoresObj.id = 'scores';
-    scoresObj.style.position = 'absolute';
-    scoresObj.style.fontSize = '40px';
-    wrapper.appendChild(scoresObj);
-  }
-
   function createBase() {
     const baseObj = document.createElement('div');
     baseObj.style.position = 'absolute';
@@ -112,14 +108,18 @@
     baseObj.style.top = `${base.posY}px`;
     baseObj.style.transform = 'translate(-50%, -50%)';
     baseObj.style.zIndex = '-1';
-    wrapper.appendChild(baseObj);
+    gameObj.appendChild(baseObj);
   }
 
   function startGame() {
     if (playing === false) {
       playing = true;
     }
-    createScores();
+
+    units.forEach(unit => unit.obj.remove());
+    units = [];
+    scores.scores = 0;
+
     createBase();
   }
 
@@ -259,10 +259,24 @@
         const distY = Math.abs(units[j].posY - units[i].posY);
         const ultraDist = units[i].unitSize / 2 + units[j].unitSize / 2;
         if (distX < ultraDist && distY < ultraDist) {
-          playing = false;
+          gameover();
         }
       }
     }
+  }
+
+  function gameover() {
+    playing = false;
+
+    toggleSaveControls(true);
+
+    title.innerHTML = `Игра окончена! (Вы набрали: ${Math.round(scores.scores)} очков)`;
+    location.hash = encodeURIComponent(JSON.stringify({ page: 'menu' }));
+  }
+
+  function toggleSaveControls(show) {
+    userName.style.display = show ? 'block' : 'none';
+    storeUserNameButton.style.display = show ? 'block' : 'none';
   }
 
   function unitOnBase(unit, index) {

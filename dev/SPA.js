@@ -11,15 +11,27 @@ function renderNewState() {
     state = JSON.parse(state);
   }
 
+  function changePage() {
+    const stateElements = [
+      { state: 'menu', id: 'menu' },
+      { state: 'game', id: 'game' },
+      { state: 'records', id: 'recordsMenu' }];
+
+    stateElements.forEach(entry => {
+      const showElement = entry.state === state.page;
+      document.getElementById(entry.id).style.display = showElement ? 'block' : 'none';
+    });
+  }
+
   switch(state.page) {
     case 'menu':
-
+      changePage();
       break;
     case 'game':
-      document.getElementById('menu').style.display = 'none';
+      changePage();
       break;
     case 'records':
-
+      changePage();
       break;
   }
 }

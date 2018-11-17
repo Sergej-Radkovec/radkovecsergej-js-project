@@ -8,7 +8,12 @@
   <body>
     <div id="wrapper">
       <canvas id="canvas">Если вы видите это сообщение, то у вас не поддерживается Canvas. Обновите браузер.</canvas>
+      <div id="game">
+        <p id="scores"></p>
+
+      </div>
       <div id="menu">
+        <h2 id="title"></h2>
         <input type="text" placeholder="Введите Ваше имя" id='userName'>
         <input type="button" value="Запомнить меня" id='storeUserName'>
         <input type="button" value="Таблица рекордов" id='showRecords'>
@@ -18,6 +23,10 @@
           <li>3. При столкновении игра заканчивается.</li>
         </ul>
         <input type="button" value="Старт" id="start" onclick="switchToGame()">
+      </div>
+      <div id="recordsMenu">
+        <input type="button" value="Вернуться в меню" id='backToMenu'>
+        <div id='recordsTable'></div>
       </div>
     </div>
     <script src="SPA.js"></script>
