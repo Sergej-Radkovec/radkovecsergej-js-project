@@ -4,8 +4,9 @@ body, html {
     overflow: hidden;
 }
 
-#menu {
+#menu, #recordsMenu {
     position: absolute;
+    z-index: 99;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -15,11 +16,20 @@ body, html {
     padding: 20px;
 }
 
-#storeUserName, #showRecords, #start, #userName {
+#storeUserName, #showRecords, #start, #userName, #backToMenu {
     display: block;
     margin: 5px auto;
     background-color: rgba(173, 255, 47, 0.57);
     border: 1px solid greenyellow;
     border-radius: 20px;
     text-align: center;
+}
+
+#scores {
+    position: absolute;
+    margin: 20px 0;
+}
+
+#storeUserName, #userName {
+    display: none;
 }

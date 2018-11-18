@@ -16,7 +16,7 @@
         <h2 id="title"></h2>
         <input type="text" placeholder="Введите Ваше имя" id='userName'>
         <input type="button" value="Запомнить меня" id='storeUserName'>
-        <input type="button" value="Таблица рекордов" id='showRecords'>
+        <input type="button" value="Таблица рекордов" id='showRecords' onclick="switchToRecords()">
         <ul>
           <li>1. Рисуйте траекторию для посадки</li>
           <li>2. После посадки добавляються очки</li>
@@ -25,10 +25,12 @@
         <input type="button" value="Старт" id="start" onclick="switchToGame()">
       </div>
       <div id="recordsMenu">
-        <input type="button" value="Вернуться в меню" id='backToMenu'>
+        <input type="button" value="Вернуться в меню" id='backToMenu' onclick="switchToMenu()">
         <div id='recordsTable'></div>
       </div>
     </div>
+    <script src='http://code.jquery.com/jquery-latest.js'></script>
+    <script src="records.js"></script>
     <script src="SPA.js"></script>
     <script src="script.js"></script>
   </body>

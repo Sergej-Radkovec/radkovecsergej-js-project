@@ -1,8 +1,8 @@
 'use strict';
 
 const records = new function () {
-  const stringName = 'RADKOVEC_AIR_CONTROL';
-  const ajaxHandlerScript = '/AjaxStringStorage2.php';
+  const stringName = 'RADKOVEC_AIRCONTROL_RECORDS';
+  const ajaxHandlerScript = 'http://fe.it-academy.by/AjaxStringStorage2.php';
   const recordsLength = 10;
   let password;
   let userName;
@@ -82,20 +82,20 @@ const records = new function () {
   }
 
   function showTable() {
-    var PageHTML = '',
-      name,
-      score;
-    PageHTML += '<table>';
-    PageHTML += '<tr><th>Место</th><th>Имя игрока</th><th>Очки</th></tr>';
+    let pageHTML = '';
+    let name;
+    let score;
+    pageHTML += '<table>';
+    pageHTML += '<tr><th>Место</th><th>Имя игрока</th><th>Очки</th></tr>';
 
-    for (var i = 0; i < recordStorage.length; i++) {
+    for (let i = 0; i < recordStorage.length; i++) {
       name = recordStorage[i].name;
       score = recordStorage[i].score;
-      PageHTML += '<tr><td>' + (i+1) + '</td><td class="userName">' + name + '</td><td class="userScore">' + score + '</td></td></tr>';
+      pageHTML += '<tr><td>' + (i+1) + '</td><td class="userName">' + name + '</td><td class="userScore">' + score + '</td></td></tr>';
     }
 
-    PageHTML += '</table>';
-    $('#recordsTable').empty().append(PageHTML);
+    pageHTML += '</table>';
+    $('#recordsTable').empty().append(pageHTML);
   }
 
   function AddUsers() {
@@ -134,10 +134,8 @@ const records = new function () {
   }
 
   function updateReady(ResultH) {
-    if (ResultH.error != undefined) {
+    if (ResultH.error !== undefined) {
       alert(`Извините, таблицы рекордов временно недоступны.\n${ResultH.error}`);
-    } else {
-      lePetitWorld.toggleSaveControls(false);
     }
   }
 

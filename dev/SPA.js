@@ -32,6 +32,7 @@ function renderNewState() {
       break;
     case 'records':
       changePage();
+      records.getHighscores();
       break;
   }
 }
@@ -40,13 +41,13 @@ function switchToState(state) {
   location.hash = encodeURIComponent(JSON.stringify(state));
 }
 function switchToMenu() {
-  switchToState({page: 'menu'});
+  switchToState({ page: 'menu' });
 }
 function switchToGame() {
-  switchToState({page: 'game'});
+  switchToState({ page: 'game' });
 }
 function switchToRecords() {
-  switchToState({page: 'records'});
+  switchToState({ page: 'records' });
 }
 
 renderNewState();

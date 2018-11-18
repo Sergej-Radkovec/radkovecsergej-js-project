@@ -204,7 +204,9 @@
   }
   // добавление траектории
   let target;
-  document.addEventListener('mousedown', (event) => {
+  document.addEventListener('mousedown', startSetWay, false);
+
+  function startSetWay(event) {
     event = event || window.event;
     event.preventDefault();
 
@@ -217,7 +219,7 @@
       }
     });
     document.addEventListener('mouseup', () => document.removeEventListener('mousemove', setWay));
-  });
+  }
 
   // сетаем координаты
   function setWay(e) {
@@ -270,8 +272,17 @@
 
     toggleSaveControls(true);
 
+    document.removeEventListener('mousedown', startSetWay, false);
     title.innerHTML = `Игра окончена! (Вы набрали: ${Math.round(scores.scores)} очков)`;
     location.hash = encodeURIComponent(JSON.stringify({ page: 'menu' }));
+  }
+
+  storeUserNameButton.addEventListener('click', storeUserNameButtonHandler, false);
+
+  function storeUserNameButtonHandler(e) {
+    e.preventDefault(e);
+    records.addNewResult(userName.value, scores.scores);
+    toggleSaveControls(false);
   }
 
   function toggleSaveControls(show) {
