@@ -10,11 +10,22 @@
   const ctx = canvas.getContext('2d');
   const wrapper = document.getElementById('wrapper');
 
+  wrapper.style.width = `${window.innerWidth}px`;
+  wrapper.style.height = `${window.innerHeight}px`;
+  wrapper.style.backgroundImage = 'url(bg.jpg)';
+  wrapper.style.backgroundSize = `${window.innerWidth}px ${window.innerHeight}px`;
+
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
   canvas.style.position = 'absolute';
 
   let units = [];
+  let bases = [];
+
+  let playing = false;
+  const frequency = 15;
+  const generateSpeed = frequency * 250;
+  let timeGame = 0;
 
   const scores = {
     scores: 0,
@@ -24,16 +35,26 @@
     },
   };
 
-  const base = {
-    size: 150,
-    posX: 300,
-    posY: 500,
-  };
-
-  let playing = false;
-  const frequency = 15;
-  const generateSpeed = frequency * 250;
-  let timeGame = 0;
+  function Base(t, l, w, h) {
+    const self = this;
+    self.sizeX = window.innerWidth * w / 100;
+    self.sizeY = window.innerHeight * h / 100;
+    self.posX = (window.innerWidth * w / 100) / 2 + window.innerWidth * l / 100;
+    self.posY = (window.innerHeight * h / 100) / 2 + window.innerHeight * t / 100;
+    function createBase() {
+      const baseObj = document.createElement('div');
+      baseObj.style.position = 'absolute';
+      baseObj.style.backgroundColor = '#5860f0';
+      baseObj.style.borderRadius = '20px';
+      baseObj.style.width = `${w}%`;
+      baseObj.style.height = `${h}%`;
+      baseObj.style.left = `${l}%`;
+      baseObj.style.top = `${t}%`;
+      gameObj.appendChild(baseObj);
+      self.obj = baseObj;
+    }
+    createBase();
+  }
 
   // конструктор юнитов
   function Unit() {
@@ -74,53 +95,49 @@
         self.speedY *= -1;
       }
     }
-// временно создаем шарик вместо самолёта
-    function createBall() {
-      const ballObj = document.createElement('div');
-      ballObj.style.position = 'absolute';
-      ballObj.style.backgroundColor = '#F02137';
-      ballObj.style.borderRadius = '50%';
-      ballObj.style.width = self.unitSize + 'px';
-      ballObj.style.height = self.unitSize + 'px';
-      ballObj.style.transform = 'translate(-50%, -50%)';
-      wrapper.appendChild(ballObj);
-      self.obj = ballObj;
+
+    function createPlane() {
+      const planeObj = document.createElement('img');
+      planeObj.src = 'plane.svg';
+      planeObj.style.position = 'absolute';
+      planeObj.style.width = `${self.unitSize}px`;
+      planeObj.style.height = `${self.unitSize}px`;
+      planeObj.style.transform = 'translate(-50%, -50%)';
+      wrapper.appendChild(planeObj);
+      self.obj = planeObj;
     }
 
     self.update = function () {
+      const sin = self.speedX / Math.sqrt(self.speedX * self.speedX + self.speedY * self.speedY);
+      let angle = Math.asin(sin) * 180 / Math.PI;
+      if (self.speedY > 0) {
+        angle = 180 - angle;
+      }
+
+      self.obj.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
       self.obj.style.left = self.posX + 'px';
       self.obj.style.top = self.posY + 'px';
     };
 
     setRandomPos();
     setRandomDirection();
-    createBall();
+    createPlane();
   }
 
-  function createBase() {
-    const baseObj = document.createElement('div');
-    baseObj.style.position = 'absolute';
-    baseObj.style.backgroundColor = '#5860f0';
-    baseObj.style.borderRadius = '35%';
-    baseObj.style.width = `${base.size}px`;
-    baseObj.style.height = `${base.size}px`;
-    baseObj.style.left = `${base.posX}px`;
-    baseObj.style.top = `${base.posY}px`;
-    baseObj.style.transform = 'translate(-50%, -50%)';
-    baseObj.style.zIndex = '-1';
-    gameObj.appendChild(baseObj);
-  }
+  bases.push(new Base(29.7, 33, 8, 9));
 
   function startGame() {
     if (playing === false) {
       playing = true;
     }
 
+    document.addEventListener('mousedown', startSetWay, false);
+
     units.forEach(unit => unit.obj.remove());
     units = [];
     scores.scores = 0;
 
-    createBase();
+    console.log(bases);
   }
 
   startButton.addEventListener('click', startGame, false);
@@ -147,7 +164,6 @@
   // генерируем юниты
   function generateUnit() {
     units.push(new Unit());
-    units.forEach(value => value.update());
   }
 
   // Изменяем положение обьектов
@@ -203,8 +219,8 @@
     elem.update();
   }
   // добавление траектории
+
   let target;
-  document.addEventListener('mousedown', startSetWay, false);
 
   function startSetWay(event) {
     event = event || window.event;
@@ -228,7 +244,7 @@
     let x = e.pageX;
     let y = e.pageY;
     target.way.push([x, y]);
-    if (Math.abs(x - base.posX) < base.size / 4 && Math.abs(y - base.posY) < base.size / 4) {
+    if (Math.abs(x - bases[0].posX) < bases[0].sizeX / 4 && Math.abs(y - bases[0].posY) < bases[0].sizeY / 4) {
       target.onBase = true;
       document.removeEventListener('mousemove', setWay);
     }
