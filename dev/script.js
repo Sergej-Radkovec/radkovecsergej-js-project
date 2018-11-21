@@ -35,7 +35,7 @@
     },
   };
 
-  function Base(t, l, w, h) {
+  function Base(t, l, w, h, angle) {
     const self = this;
     self.sizeX = window.innerWidth * w / 100;
     self.sizeY = window.innerHeight * h / 100;
@@ -50,6 +50,8 @@
       baseObj.style.height = `${h}%`;
       baseObj.style.left = `${l}%`;
       baseObj.style.top = `${t}%`;
+      baseObj.style.opacity = 0;
+      baseObj.style.transform = `rotate(${angle}deg`;
       gameObj.appendChild(baseObj);
       self.obj = baseObj;
     }
@@ -60,7 +62,7 @@
   function Unit() {
     const self = this;
     self.unitSize = 50;
-    self.speed = 1;
+    self.speed = 0.7;
     self.way = [];
     self.onBase = false;
 
@@ -124,7 +126,8 @@
     createPlane();
   }
 
-  bases.push(new Base(29.7, 33, 8, 9));
+  bases.push(new Base(29.7, 33, 8, 9, 0));
+  bases.push(new Base(64.3, 51.5, 8, 8.2, 139));
 
   function startGame() {
     if (playing === false) {
@@ -234,7 +237,10 @@
         document.addEventListener('mousemove', setWay);
       }
     });
-    document.addEventListener('mouseup', () => document.removeEventListener('mousemove', setWay));
+    document.addEventListener('mouseup', () => {
+      document.removeEventListener('mousemove', setWay);
+      bases.forEach(base => base.obj.style.opacity = 0);
+    });
   }
 
   // сетаем координаты
@@ -244,10 +250,13 @@
     let x = e.pageX;
     let y = e.pageY;
     target.way.push([x, y]);
-    if (Math.abs(x - bases[0].posX) < bases[0].sizeX / 4 && Math.abs(y - bases[0].posY) < bases[0].sizeY / 4) {
-      target.onBase = true;
-      document.removeEventListener('mousemove', setWay);
-    }
+    bases.forEach(base => {
+      base.obj.style.opacity = 0.5;
+      if (Math.abs(x - base.posX) < base.sizeX / 4 && Math.abs(y - base.posY) < base.sizeY / 4) {
+        target.onBase = true;
+        document.removeEventListener('mousemove', setWay);
+      }
+    });
   }
 
   // рисуем путь юнита

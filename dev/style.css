@@ -27,9 +27,25 @@ body, html {
 
 #scores {
     position: absolute;
-    margin: 20px 0;
+    margin: 25px;
+    font-family: "Comic Sans MS" sans-serif;
+    font-size: 50px;
+    font-weight: bold;
+    color: antiquewhite;
 }
 
 #storeUserName, #userName {
     display: none;
+}
+
+#preloader {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 999;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    background: #ffffff url('preloader.png') no-repeat center center;
+    background-size: cover;
 }

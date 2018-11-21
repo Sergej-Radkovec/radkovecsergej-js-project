@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
+    <div id="preloader"></div>
     <div id="wrapper">
       <canvas id="canvas">Если вы видите это сообщение, то у вас не поддерживается Canvas. Обновите браузер.</canvas>
       <div id="game">
@@ -32,5 +33,14 @@
     <script src="records.js"></script>
     <script src="SPA.js"></script>
     <script src="script.js"></script>
+    <script>
+      $(document).ready(function ($) {
+        $(window).load(function () {
+          setTimeout(function () {
+            $('#preloader').fadeOut('slow');
+          }, 1500);
+        });
+      });
+    </script>
   </body>
 </html>
