@@ -12,7 +12,7 @@
 
   wrapper.style.width = `${window.innerWidth}px`;
   wrapper.style.height = `${window.innerHeight}px`;
-  wrapper.style.backgroundImage = 'url(bg.jpg)';
+  wrapper.style.backgroundImage = 'url(img/bg.jpg)';
   wrapper.style.backgroundSize = `${window.innerWidth}px ${window.innerHeight}px`;
 
   canvas.width = window.innerWidth;
@@ -35,95 +35,101 @@
     },
   };
 
-  function Base(t, l, w, h, angle) {
-    const self = this;
-    self.sizeX = window.innerWidth * w / 100;
-    self.sizeY = window.innerHeight * h / 100;
-    self.posX = (window.innerWidth * w / 100) / 2 + window.innerWidth * l / 100;
-    self.posY = (window.innerHeight * h / 100) / 2 + window.innerHeight * t / 100;
-    function createBase() {
-      const baseObj = document.createElement('div');
-      baseObj.style.position = 'absolute';
-      baseObj.style.backgroundColor = '#5860f0';
-      baseObj.style.borderRadius = '20px';
-      baseObj.style.width = `${w}%`;
-      baseObj.style.height = `${h}%`;
-      baseObj.style.left = `${l}%`;
-      baseObj.style.top = `${t}%`;
-      baseObj.style.opacity = 0;
-      baseObj.style.transform = `rotate(${angle}deg`;
-      gameObj.appendChild(baseObj);
-      self.obj = baseObj;
+  class Base {
+    constructor(t, l, w, h, angle) {
+      const self = this;
+      self.sizeX = window.innerWidth * w / 100;
+      self.sizeY = window.innerHeight * h / 100;
+      self.posX = (window.innerWidth * w / 100) / 2 + window.innerWidth * l / 100;
+      self.posY = (window.innerHeight * h / 100) / 2 + window.innerHeight * t / 100;
+
+      function createBase() {
+        const baseObj = document.createElement('div');
+        baseObj.style.position = 'absolute';
+        baseObj.style.backgroundColor = '#5860f0';
+        baseObj.style.borderRadius = '20px';
+        baseObj.style.width = `${w}%`;
+        baseObj.style.height = `${h}%`;
+        baseObj.style.left = `${l}%`;
+        baseObj.style.top = `${t}%`;
+        baseObj.style.opacity = 0;
+        baseObj.style.transform = `rotate(${angle}deg`;
+        gameObj.appendChild(baseObj);
+        self.obj = baseObj;
+      }
+
+      createBase();
     }
-    createBase();
   }
 
   // конструктор юнитов
-  function Unit() {
-    const self = this;
-    self.unitSize = 50;
-    self.speed = 0.7;
-    self.way = [];
-    self.onBase = false;
+  class Unit {
+    constructor() {
+      const self = this;
+      self.unitSize = 50;
+      self.speed = 0.7;
+      self.way = [];
+      self.onBase = false;
 
-    function setRandomPos() {
-      const random = Math.random();
-      const perimeter = window.innerWidth * 2 + window.innerHeight * 2;
-      if (perimeter * random < window.innerWidth) {
-        self.posX = perimeter * random;
-        self.posY = 0;
-      } else if (perimeter * random < window.innerWidth + window.innerHeight) {
-        self.posX = window.innerWidth - self.unitSize;
-        self.posY = perimeter * random - window.innerWidth;
-      } else if (perimeter * random < window.innerWidth * 2 + window.innerHeight) {
-        self.posX = window.innerWidth * 2 + window.innerHeight - perimeter * random;
-        self.posY = window.innerHeight - self.unitSize;
-      } else {
-        self.posX = 0;
-        self.posY = perimeter - perimeter * random;
+      function setRandomPos() {
+        const random = Math.random();
+        const perimeter = window.innerWidth * 2 + window.innerHeight * 2;
+        if (perimeter * random < window.innerWidth) {
+          self.posX = perimeter * random;
+          self.posY = 0;
+        } else if (perimeter * random < window.innerWidth + window.innerHeight) {
+          self.posX = window.innerWidth - self.unitSize;
+          self.posY = perimeter * random - window.innerWidth;
+        } else if (perimeter * random < window.innerWidth * 2 + window.innerHeight) {
+          self.posX = window.innerWidth * 2 + window.innerHeight - perimeter * random;
+          self.posY = window.innerHeight - self.unitSize;
+        } else {
+          self.posX = 0;
+          self.posY = perimeter - perimeter * random;
+        }
       }
+
+      function setRandomDirection() {
+        self.speedY = Math.random() * (self.speed + self.speed / 3) - self.speed / 3;
+        self.speedX = Math.sqrt(self.speed * self.speed - self.speedY * self.speedY);
+        if (Math.random() > 0.5) {
+          self.speedX *= -1;
+        }
+        if (self.posX > window.innerWidth) {
+          self.speedX *= -1;
+        }
+        if (self.posY > window.innerHeight) {
+          self.speedY *= -1;
+        }
+      }
+
+      function createPlane() {
+        const planeObj = document.createElement('img');
+        planeObj.src = 'img/plane.svg';
+        planeObj.style.position = 'absolute';
+        planeObj.style.width = `${self.unitSize}px`;
+        planeObj.style.height = `${self.unitSize}px`;
+        planeObj.style.transform = 'translate(-50%, -50%)';
+        wrapper.appendChild(planeObj);
+        self.obj = planeObj;
+      }
+
+      setRandomPos();
+      setRandomDirection();
+      createPlane();
     }
 
-    function setRandomDirection() {
-      self.speedY = Math.random() * (self.speed + self.speed / 3) - self.speed / 3;
-      self.speedX = Math.sqrt(self.speed * self.speed - self.speedY * self.speedY);
-      if (Math.random() > 0.5) {
-        self.speedX *= -1;
-      }
-      if (self.posX > window.innerWidth) {
-        self.speedX *= -1;
-      }
-      if (self.posY > window.innerHeight) {
-        self.speedY *= -1;
-      }
-    }
-
-    function createPlane() {
-      const planeObj = document.createElement('img');
-      planeObj.src = 'plane.svg';
-      planeObj.style.position = 'absolute';
-      planeObj.style.width = `${self.unitSize}px`;
-      planeObj.style.height = `${self.unitSize}px`;
-      planeObj.style.transform = 'translate(-50%, -50%)';
-      wrapper.appendChild(planeObj);
-      self.obj = planeObj;
-    }
-
-    self.update = function () {
-      const sin = self.speedX / Math.sqrt(self.speedX * self.speedX + self.speedY * self.speedY);
+    update() {
+      const sin = this.speedX / Math.sqrt(this.speedX * this.speedX + this.speedY * this.speedY);
       let angle = Math.asin(sin) * 180 / Math.PI;
-      if (self.speedY > 0) {
+      if (this.speedY > 0) {
         angle = 180 - angle;
       }
 
-      self.obj.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
-      self.obj.style.left = self.posX + 'px';
-      self.obj.style.top = self.posY + 'px';
-    };
-
-    setRandomPos();
-    setRandomDirection();
-    createPlane();
+      this.obj.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
+      this.obj.style.left = `${this.posX}px`;
+      this.obj.style.top = `${this.posY}px`;
+    }
   }
 
   bases.push(new Base(29.7, 33, 8, 9, 0));
