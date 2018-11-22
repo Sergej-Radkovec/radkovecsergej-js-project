@@ -91,7 +91,7 @@ const records = new function () {
     for (let i = 0; i < recordStorage.length; i++) {
       name = recordStorage[i].name;
       score = recordStorage[i].score;
-      pageHTML += '<tr><td>' + (i+1) + '</td><td class="userName">' + name + '</td><td class="userScore">' + score + '</td></td></tr>';
+      pageHTML += `<tr><td>${(i + 1)}</td><td class="userName">${name}</td><td class="userScore">${score}</td></td></tr>`;
     }
 
     pageHTML += '</table>';

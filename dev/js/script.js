@@ -20,12 +20,15 @@
   canvas.style.position = 'absolute';
 
   let units = [];
-  let bases = [];
+  const bases = [];
 
   let playing = false;
   const frequency = 15;
   const generateSpeed = frequency * 250;
   let timeGame = 0;
+
+  const planeSize = 80;
+  const planeSpeed = 0.7;
 
   const scores = {
     scores: 0,
@@ -63,60 +66,42 @@
   }
 
   // конструктор юнитов
-  class Unit {
-    constructor() {
-      const self = this;
-      self.unitSize = 50;
-      self.speed = 0.7;
-      self.way = [];
-      self.onBase = false;
+  class Vehicle {
+    constructor(size, speed) {
+      this.way = [];
+      this.onBase = false;
+      this.unitSize = size;
+      this.speed = speed;
+    }
 
-      function setRandomPos() {
-        const random = Math.random();
-        const perimeter = window.innerWidth * 2 + window.innerHeight * 2;
-        if (perimeter * random < window.innerWidth) {
-          self.posX = perimeter * random;
-          self.posY = 0;
-        } else if (perimeter * random < window.innerWidth + window.innerHeight) {
-          self.posX = window.innerWidth - self.unitSize;
-          self.posY = perimeter * random - window.innerWidth;
-        } else if (perimeter * random < window.innerWidth * 2 + window.innerHeight) {
-          self.posX = window.innerWidth * 2 + window.innerHeight - perimeter * random;
-          self.posY = window.innerHeight - self.unitSize;
-        } else {
-          self.posX = 0;
-          self.posY = perimeter - perimeter * random;
-        }
+    culcRandomDirection() {
+      const random = Math.random();
+      const perimeter = window.innerWidth * 2 + window.innerHeight * 2;
+      if (perimeter * random < window.innerWidth) {
+        this.posX = perimeter * random;
+        this.posY = 0;
+      } else if (perimeter * random < window.innerWidth + window.innerHeight) {
+        this.posX = window.innerWidth - this.unitSize;
+        this.posY = perimeter * random - window.innerWidth;
+      } else if (perimeter * random < window.innerWidth * 2 + window.innerHeight) {
+        this.posX = window.innerWidth * 2 + window.innerHeight - perimeter * random;
+        this.posY = window.innerHeight - this.unitSize;
+      } else {
+        this.posX = 0;
+        this.posY = perimeter - perimeter * random;
       }
 
-      function setRandomDirection() {
-        self.speedY = Math.random() * (self.speed + self.speed / 3) - self.speed / 3;
-        self.speedX = Math.sqrt(self.speed * self.speed - self.speedY * self.speedY);
-        if (Math.random() > 0.5) {
-          self.speedX *= -1;
-        }
-        if (self.posX > window.innerWidth) {
-          self.speedX *= -1;
-        }
-        if (self.posY > window.innerHeight) {
-          self.speedY *= -1;
-        }
+      this.speedY = Math.random() * (this.speed + this.speed / 3) - this.speed / 3;
+      this.speedX = Math.sqrt(this.speed * this.speed - this.speedY * this.speedY);
+      if (Math.random() > 0.5) {
+        this.speedX *= -1;
       }
-
-      function createPlane() {
-        const planeObj = document.createElement('img');
-        planeObj.src = 'img/plane.svg';
-        planeObj.style.position = 'absolute';
-        planeObj.style.width = `${self.unitSize}px`;
-        planeObj.style.height = `${self.unitSize}px`;
-        planeObj.style.transform = 'translate(-50%, -50%)';
-        wrapper.appendChild(planeObj);
-        self.obj = planeObj;
+      if (this.posX > window.innerWidth) {
+        this.speedX *= -1;
       }
-
-      setRandomPos();
-      setRandomDirection();
-      createPlane();
+      if (this.posY > window.innerHeight) {
+        this.speedY *= -1;
+      }
     }
 
     update() {
@@ -129,6 +114,19 @@
       this.obj.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
       this.obj.style.left = `${this.posX}px`;
       this.obj.style.top = `${this.posY}px`;
+    }
+  }
+
+  class Plane extends Vehicle {
+    drowPlane() {
+      const planeObj = document.createElement('img');
+      planeObj.src = 'img/plane.svg';
+      planeObj.style.position = 'absolute';
+      planeObj.style.width = `${this.unitSize}px`;
+      planeObj.style.height = `${this.unitSize}px`;
+      planeObj.style.transform = 'translate(-50%, -50%)';
+      wrapper.appendChild(planeObj);
+      this.obj = planeObj;
     }
   }
 
@@ -157,7 +155,7 @@
     if (playing) {
       timeGame += frequency;
       if (timeGame % generateSpeed === 0 || timeGame === frequency) {
-        generateUnit();
+        units.push(generateUnit());
       }
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       units.forEach((unit, index) => {
@@ -172,7 +170,10 @@
 
   // генерируем юниты
   function generateUnit() {
-    units.push(new Unit());
+    const newUnit = new Plane(planeSize, planeSpeed);
+    newUnit.culcRandomDirection();
+    newUnit.drowPlane();
+    return newUnit;
   }
 
   // Изменяем положение обьектов
