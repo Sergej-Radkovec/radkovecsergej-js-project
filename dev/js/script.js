@@ -75,32 +75,25 @@
     }
 
     culcRandomDirection() {
-      const random = Math.random();
       const perimeter = window.innerWidth * 2 + window.innerHeight * 2;
-      if (perimeter * random < window.innerWidth) {
-        this.posX = perimeter * random;
+      const randomPosition = Math.random() * perimeter;
+      const randomAngle = Math.random() * 2 * Math.PI;
+
+      this.speedX = this.speed * Math.cos(randomAngle);
+      this.speedY = this.speed * Math.sin(randomAngle);
+
+      if (randomPosition < window.innerWidth) {
+        this.posX = randomPosition;
         this.posY = 0;
-      } else if (perimeter * random < window.innerWidth + window.innerHeight) {
-        this.posX = window.innerWidth - this.unitSize;
-        this.posY = perimeter * random - window.innerWidth;
-      } else if (perimeter * random < window.innerWidth * 2 + window.innerHeight) {
-        this.posX = window.innerWidth * 2 + window.innerHeight - perimeter * random;
-        this.posY = window.innerHeight - this.unitSize;
+      } else if (randomPosition < window.innerWidth + window.innerHeight) {
+        this.posX = window.innerWidth;
+        this.posY = randomPosition - window.innerWidth;
+      } else if (randomPosition < window.innerWidth * 2 + window.innerHeight) {
+        this.posX = window.innerWidth * 2 + window.innerHeight - randomPosition;
+        this.posY = window.innerHeight;
       } else {
         this.posX = 0;
-        this.posY = perimeter - perimeter * random;
-      }
-
-      this.speedY = Math.random() * (this.speed + this.speed / 3) - this.speed / 3;
-      this.speedX = Math.sqrt(this.speed * this.speed - this.speedY * this.speedY);
-      if (Math.random() > 0.5) {
-        this.speedX *= -1;
-      }
-      if (this.posX > window.innerWidth) {
-        this.speedX *= -1;
-      }
-      if (this.posY > window.innerHeight) {
-        this.speedY *= -1;
+        this.posY = perimeter - randomPosition;
       }
     }
 
@@ -130,6 +123,10 @@
     }
   }
 
+  class Helicopter extends Vehicle {
+
+  }
+
   bases.push(new Base(29.7, 33, 8, 9, 0));
   bases.push(new Base(64.3, 51.5, 8, 8.2, 139));
 
@@ -143,8 +140,6 @@
     units.forEach(unit => unit.obj.remove());
     units = [];
     scores.scores = 0;
-
-    console.log(bases);
   }
 
   startButton.addEventListener('click', startGame, false);
@@ -289,10 +284,10 @@
     const length = units.length;
     for (let i = 0; i < length; i++) {
       for (let j = i + 1; j < length; j++) {
-        const distX = Math.abs(units[j].posX - units[i].posX);
-        const distY = Math.abs(units[j].posY - units[i].posY);
-        const ultraDist = units[i].unitSize / 2 + units[j].unitSize / 2;
-        if (distX < ultraDist && distY < ultraDist) {
+        const dist = Math.sqrt((units[j].posX - units[i].posX) * (units[j].posX - units[i].posX)
+          + (units[j].posY - units[i].posY) * (units[j].posY - units[i].posY));
+        const ultraDist = (units[i].unitSize / 2 + units[j].unitSize / 2) * 0.8;
+        if (dist < ultraDist) {
           gameover();
         }
       }
