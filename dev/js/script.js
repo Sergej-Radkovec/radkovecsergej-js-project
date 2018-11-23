@@ -114,6 +114,10 @@
   }
 
   class Plane extends Vehicle {
+    constructor() {
+      super(planeSize, planeSpeed);
+    }
+
     drow() {
       const planeObj = document.createElement('img');
       planeObj.src = 'img/plane.svg';
@@ -127,6 +131,10 @@
   }
 
   class Helicopter extends Vehicle {
+    constructor() {
+      super(helicopterSize, helicopterSpeed);
+    }
+
     drow() {
       const size = this.unitSize;
       const heliObj = document.createElement('div');
@@ -135,8 +143,8 @@
       heliObj.style.height = `${size * 1.24}px`;
       heliObj.style.position = 'absolute';
       wrapper.appendChild(heliObj);
-      $(heliObj).svg(drawIntro);
-      function drawIntro(svg) {
+      $(heliObj).svg(drawHeli);
+      function drawHeli(svg) {
         svg.polyline(
           [[size * 0.34, size * 0.32], [size * 0.3, size * 0.34],
             [size * 0.3, size * 0.66], [size * 0.34, size * 0.68]],
@@ -158,19 +166,21 @@
         svg.rect(size * 0.4, size * 0.28, size * 0.2, size * 0.1, size * 0.08, size * 0.08,
           { fill: '#294CCC' });
 
-        svg.line(size * 0.5, size * 0.5, size * 0.5, 0,
+        const g = svg.group({ strokeWidth: 2, stroke: 'grey' });
+
+        svg.line(g, size * 0.5, size * 0.5, size * 0.5, 0,
           {
-            strokeWidth: 2, stroke: 'grey', transform: `rotate(0 ${size * 0.5} ${size * 0.5})`,
+            transform: `rotate(0 ${size * 0.5} ${size * 0.5})`
           });
 
-        svg.line(size * 0.5, size * 0.5, size * 0.5, 0,
+        svg.line(g, size * 0.5, size * 0.5, size * 0.5, 0,
           {
-            strokeWidth: 2, stroke: 'grey', transform: `rotate(120 ${size * 0.5} ${size * 0.5})`,
+            transform: `rotate(120 ${size * 0.5} ${size * 0.5})`
           });
 
-        svg.line(size * 0.5, size * 0.5, size * 0.5, 0,
+        svg.line(g, size * 0.5, size * 0.5, size * 0.5, 0,
           {
-            strokeWidth: 2, stroke: 'grey', transform: `rotate(240 ${size * 0.5} ${size * 0.5})`,
+            transform: `rotate(240 ${size * 0.5} ${size * 0.5})`
           });
 
         svg.circle(size * 0.5, size * 0.5, size * 0.03, { fill: '#B5FF67' });
@@ -191,6 +201,16 @@
           });
       }
       this.obj = heliObj;
+    }
+
+    update() {
+      super.update();
+      let blades = Array.from(this.obj.querySelectorAll('g line'));
+      let size = this.unitSize;
+      blades.forEach((elem) => {
+        const deggreBlade = elem.transform.animVal[0].angle;
+        elem.setAttribute('transform', `rotate(${deggreBlade + 6} ${size / 2} ${size / 2})`);
+      });
     }
   }
 
@@ -235,9 +255,9 @@
     let generateUnit;
 
     if (Math.random() < 0.65) {
-      generateUnit = new Plane(planeSize, planeSpeed);
+      generateUnit = new Plane();
     } else {
-      generateUnit = new Helicopter(helicopterSize, helicopterSpeed);
+      generateUnit = new Helicopter();
     }
 
     generateUnit.culcRandomDirection();
