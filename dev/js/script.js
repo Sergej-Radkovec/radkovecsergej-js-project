@@ -27,13 +27,19 @@
   const generateSpeed = frequency * 200;
   let timeGame = 0;
 
-  const planeSize = 80;
-  const planeSpeed = 0.7;
-  const planeCost = 1;
+  const planeParam = {
+    size: 80,
+    speed: 0.7,
+    typeBase: 1,
+    cost: 1,
+  };
 
-  const helicopterSize = 80;
-  const helicopterSpeed = 0.5;
-  const helicopterCost = 2;
+  const helicopterParam = {
+    size: 80,
+    speed: 0.5,
+    typeBase: 2,
+    cost: 2,
+  };
 
   const scores = {
     scores: 0,
@@ -73,7 +79,7 @@
 
   // конструктор юнитов
   class Vehicle {
-    constructor(size, speed, typeBase, cost) {
+    constructor({size, speed, typeBase, cost}) {
       this.way = [];
       this.onBase = false;
       this.unitSize = size;
@@ -120,7 +126,7 @@
 
   class Plane extends Vehicle {
     constructor() {
-      super(planeSize, planeSpeed, 1, planeCost);
+      super(planeParam);
     }
 
     drow() {
@@ -137,7 +143,7 @@
 
   class Helicopter extends Vehicle {
     constructor() {
-      super(helicopterSize, helicopterSpeed, 2, helicopterCost);
+      super(helicopterParam);
     }
 
     drow() {
