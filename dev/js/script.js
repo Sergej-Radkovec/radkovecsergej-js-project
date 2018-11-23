@@ -24,11 +24,14 @@
 
   let playing = false;
   const frequency = 15;
-  const generateSpeed = frequency * 250;
+  const generateSpeed = frequency * 25000000;
   let timeGame = 0;
 
   const planeSize = 80;
   const planeSpeed = 0.7;
+
+  const helicopterSize = 80;
+  const helicopterSpeed = 0.5;
 
   const scores = {
     scores: 0,
@@ -111,7 +114,7 @@
   }
 
   class Plane extends Vehicle {
-    drowPlane() {
+    drow() {
       const planeObj = document.createElement('img');
       planeObj.src = 'img/plane.svg';
       planeObj.style.position = 'absolute';
@@ -124,7 +127,71 @@
   }
 
   class Helicopter extends Vehicle {
+    drow() {
+      const size = this.unitSize;
+      const heliObj = document.createElement('div');
+      heliObj.id = 'heliSVG';
+      heliObj.style.width = `${size}px`;
+      heliObj.style.height = `${size * 1.24}px`;
+      heliObj.style.position = 'absolute';
+      wrapper.appendChild(heliObj);
+      $(heliObj).svg(drawIntro);
+      function drawIntro(svg) {
+        svg.polyline(
+          [[size * 0.34, size * 0.32], [size * 0.3, size * 0.34],
+            [size * 0.3, size * 0.66], [size * 0.34, size * 0.68]],
+          {
+            fill: 'none', stroke: 'black', strokeWidth: size / 100, strokeLineCap: 'round',
+          },
+        );
 
+        svg.polyline(
+          [[size * 0.66, size * 0.32], [size * 0.7, size * 0.34],
+            [size * 0.7, size * 0.66], [size * 0.66, size * 0.68]],
+          {
+            fill: 'none', stroke: 'black', strokeWidth: size / 100, strokeLineCap: 'round',
+          },
+        );
+
+        svg.ellipse(size * 0.5, size * 0.5, size * 0.18, size * 0.26, { fill: '#FF754D' });
+
+        svg.rect(size * 0.4, size * 0.28, size * 0.2, size * 0.1, size * 0.08, size * 0.08,
+          { fill: '#294CCC' });
+
+        svg.line(size * 0.5, size * 0.5, size * 0.5, 0,
+          {
+            strokeWidth: 2, stroke: 'grey', transform: `rotate(0 ${size * 0.5} ${size * 0.5})`,
+          });
+
+        svg.line(size * 0.5, size * 0.5, size * 0.5, 0,
+          {
+            strokeWidth: 2, stroke: 'grey', transform: `rotate(120 ${size * 0.5} ${size * 0.5})`,
+          });
+
+        svg.line(size * 0.5, size * 0.5, size * 0.5, 0,
+          {
+            strokeWidth: 2, stroke: 'grey', transform: `rotate(240 ${size * 0.5} ${size * 0.5})`,
+          });
+
+        svg.circle(size * 0.5, size * 0.5, size * 0.03, { fill: '#B5FF67' });
+
+        svg.line(size * 0.51, size * 1.16, size * 0.4, size * 1.16,
+          {
+            strokeWidth: size * 0.02, stroke: '#B5FF67', strokeLineCap: 'round',
+          });
+
+        svg.line(size * 0.42, size * 1.08, size * 0.42, size * 1.24,
+          {
+            strokeWidth: size * 0.01, stroke: 'grey',
+          });
+
+        svg.line(size * 0.5, size * 0.7, size * 0.5, size * 1.2,
+          {
+            strokeWidth: size * 0.05, stroke: '#B5FF67', strokeLineCap: 'round',
+          });
+      }
+      this.obj = heliObj;
+    }
   }
 
   bases.push(new Base(29.7, 33, 8, 9, 0));
@@ -154,7 +221,7 @@
       }
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       units.forEach((unit, index) => {
-        posBall(unit);
+        positionUnit(unit);
         drawWay(unit);
         unitOnBase(unit, index);
       });
@@ -165,14 +232,21 @@
 
   // генерируем юниты
   function generateUnit() {
-    const newUnit = new Plane(planeSize, planeSpeed);
-    newUnit.culcRandomDirection();
-    newUnit.drowPlane();
-    return newUnit;
+    let generateUnit;
+
+    if (Math.random() > 0.9) {
+      generateUnit = new Plane(planeSize, planeSpeed);
+    } else {
+      generateUnit = new Helicopter(helicopterSize, helicopterSpeed);
+    }
+
+    generateUnit.culcRandomDirection();
+    generateUnit.drow();
+    return generateUnit;
   }
 
   // Изменяем положение обьектов
-  function posBall(elem) {
+  function positionUnit(elem) {
     let cutLength;
     let sin;
     let cos;
@@ -232,7 +306,7 @@
     event.preventDefault();
 
     units.forEach(unit => {
-      if (event.target === unit.obj) {
+      if (event.target === unit.obj || event.target.parentNode === unit.obj) {
         unit.onBase = false;
         unit.way = [];
         target = unit;
