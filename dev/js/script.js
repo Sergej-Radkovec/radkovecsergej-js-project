@@ -42,8 +42,9 @@
   };
 
   class Base {
-    constructor(t, l, w, h, angle) {
+    constructor(t, l, w, h, angle, type) {
       const self = this;
+      self.type = type;
       self.sizeX = window.innerWidth * w / 100;
       self.sizeY = window.innerHeight * h / 100;
       self.posX = (window.innerWidth * w / 100) / 2 + window.innerWidth * l / 100;
@@ -53,7 +54,7 @@
         const baseObj = document.createElement('div');
         baseObj.style.position = 'absolute';
         baseObj.style.backgroundColor = '#5860f0';
-        baseObj.style.borderRadius = '20px';
+        baseObj.style.borderRadius = '50px';
         baseObj.style.width = `${w}%`;
         baseObj.style.height = `${h}%`;
         baseObj.style.left = `${l}%`;
@@ -70,11 +71,12 @@
 
   // конструктор юнитов
   class Vehicle {
-    constructor(size, speed) {
+    constructor(size, speed, typeBase) {
       this.way = [];
       this.onBase = false;
       this.unitSize = size;
       this.speed = speed;
+      this.typeBase = typeBase;
     }
 
     culcRandomDirection() {
@@ -115,7 +117,7 @@
 
   class Plane extends Vehicle {
     constructor() {
-      super(planeSize, planeSpeed);
+      super(planeSize, planeSpeed, 1);
     }
 
     drow() {
@@ -132,7 +134,7 @@
 
   class Helicopter extends Vehicle {
     constructor() {
-      super(helicopterSize, helicopterSpeed);
+      super(helicopterSize, helicopterSpeed, 2);
     }
 
     drow() {
@@ -214,8 +216,9 @@
     }
   }
 
-  bases.push(new Base(29.7, 33, 8, 9, 0));
-  bases.push(new Base(64.3, 51.5, 8, 8.2, 139));
+  bases.push(new Base(29.7, 33, 8, 9, 0, 1));
+  bases.push(new Base(64.3, 51.5, 8, 8.2, 139, 1));
+  bases.push(new Base(59.2, 71.3, 4, 8.2, 0, 2));
 
   function startGame() {
     if (playing === false) {
@@ -358,10 +361,12 @@
     let y = e.pageY;
     target.way.push([x, y]);
     bases.forEach(base => {
-      base.obj.style.opacity = 0.5;
-      if (Math.abs(x - base.posX) < base.sizeX / 4 && Math.abs(y - base.posY) < base.sizeY / 4) {
-        target.onBase = true;
-        document.removeEventListener('mousemove', setWay);
+      if (base.type === target.typeBase) {
+        base.obj.style.opacity = 0.5;
+        if (Math.abs(x - base.posX) < base.sizeX / 4 && Math.abs(y - base.posY) < base.sizeY / 4) {
+          target.onBase = true;
+          document.removeEventListener('mousemove', setWay);
+        }
       }
     });
   }
