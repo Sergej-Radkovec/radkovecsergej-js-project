@@ -24,14 +24,16 @@
 
   let playing = false;
   const frequency = 15;
-  const generateSpeed = frequency * 20000000;
+  const generateSpeed = frequency * 200;
   let timeGame = 0;
 
   const planeSize = 80;
   const planeSpeed = 0.7;
+  const planeCost = 1;
 
   const helicopterSize = 80;
   const helicopterSpeed = 0.5;
+  const helicopterCost = 2;
 
   const scores = {
     scores: 0,
@@ -71,12 +73,13 @@
 
   // конструктор юнитов
   class Vehicle {
-    constructor(size, speed, typeBase) {
+    constructor(size, speed, typeBase, cost) {
       this.way = [];
       this.onBase = false;
       this.unitSize = size;
       this.speed = speed;
       this.typeBase = typeBase;
+      this.cost = cost;
     }
 
     culcRandomDirection() {
@@ -117,7 +120,7 @@
 
   class Plane extends Vehicle {
     constructor() {
-      super(planeSize, planeSpeed, 1);
+      super(planeSize, planeSpeed, 1, planeCost);
     }
 
     drow() {
@@ -134,7 +137,7 @@
 
   class Helicopter extends Vehicle {
     constructor() {
-      super(helicopterSize, helicopterSpeed, 2);
+      super(helicopterSize, helicopterSpeed, 2, helicopterCost);
     }
 
     drow() {
@@ -432,7 +435,7 @@
     if (unit.onBase && unit.way.length === 0) {
       unit.obj.remove();
       units.splice(index, 1);
-      scores.scores += 1;
+      scores.scores += unit.cost;
     }
   }
 })();
