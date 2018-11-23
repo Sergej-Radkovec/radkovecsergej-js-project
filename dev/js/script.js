@@ -24,7 +24,7 @@
 
   let playing = false;
   const frequency = 15;
-  const generateSpeed = frequency * 25000000;
+  const generateSpeed = frequency * 200;
   let timeGame = 0;
 
   const planeSize = 80;
@@ -202,11 +202,11 @@
       playing = true;
     }
 
-    document.addEventListener('mousedown', startSetWay, false);
-
     units.forEach(unit => unit.obj.remove());
     units = [];
     scores.scores = 0;
+
+    document.addEventListener('mousedown', startSetWay, false);
   }
 
   startButton.addEventListener('click', startGame, false);
@@ -234,7 +234,7 @@
   function generateUnit() {
     let generateUnit;
 
-    if (Math.random() > 0.9) {
+    if (Math.random() < 0.65) {
       generateUnit = new Plane(planeSize, planeSpeed);
     } else {
       generateUnit = new Helicopter(helicopterSize, helicopterSpeed);
@@ -306,7 +306,7 @@
     event.preventDefault();
 
     units.forEach(unit => {
-      if (event.target === unit.obj || event.target.parentNode === unit.obj) {
+      if (event.target === unit.obj || isDescendant(unit.obj, event.target)) {
         unit.onBase = false;
         unit.way = [];
         target = unit;
@@ -317,6 +317,17 @@
       document.removeEventListener('mousemove', setWay);
       bases.forEach(base => base.obj.style.opacity = 0);
     });
+  }
+  // Функция проверяющая являеться ли элемент пэрентом ждя другого элемента
+  function isDescendant(parent, child) {
+    let node = child.parentNode;
+    while (node != null) {
+      if (node === parent) {
+        return true;
+      }
+      node = node.parentNode;
+    }
+    return false;
   }
 
   // сетаем координаты
