@@ -24,7 +24,7 @@
 
   let playing = false;
   const frequency = 15;
-  const generateSpeed = frequency * 200;
+  const generateSpeed = frequency * 20000000;
   let timeGame = 0;
 
   const planeSize = 80;
@@ -273,7 +273,7 @@
     let cutLength;
     let sin;
     let cos;
-    const posEnd = elem.way[0];
+    const posEnd = elem.way[elem.way.length - 1];
 
     if (!elem.way.length) {
       elem.posX += elem.speedX;
@@ -290,11 +290,11 @@
         elem.posY += elem.speedY;
       } else {
         if (elem.way.length === 1) {
-          elem.way.shift();
+          elem.way.pop();
           elem.posX += elem.speedX;
           elem.posY += elem.speedY;
         } else {
-          const posStart = elem.way.shift();
+          const posStart = elem.way.pop();
           const remained = elem.speed - cutLength;
           cutLength = Math.sqrt((posEnd[0] - elem.posX) * (posEnd[0] - elem.posX)
             + (posEnd[1] - elem.posY) * (posEnd[1] - elem.posY));
@@ -359,7 +359,7 @@
     e.preventDefault();
     let x = e.pageX;
     let y = e.pageY;
-    target.way.push([x, y]);
+    target.way.unshift([x, y]);
     bases.forEach(base => {
       if (base.type === target.typeBase) {
         base.obj.style.opacity = 0.5;
@@ -375,15 +375,16 @@
   function drawWay(unit) {
     if (unit.way.length) {
       if (unit.onBase) {
-        ctx.strokeStyle = 'grey';
+        ctx.strokeStyle = '#31C46F';
       } else {
-        ctx.strokeStyle = 'black';
+        ctx.strokeStyle = '#C49E4E';
       }
-      ctx.lineWidth = 2;
+      ctx.lineWidth = 10;
+      ctx.setLineDash([20, 20]);
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
       ctx.beginPath();
-      ctx.moveTo(unit.posX, unit.posY);
+      ctx.moveTo(unit.way[0][0], unit.way[0][1]);
       unit.way.forEach(pos => ctx.lineTo(pos[0], pos[1]));
       ctx.stroke();
     }
