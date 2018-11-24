@@ -27,7 +27,7 @@
   const generateSpeed = frequency * 200;
   let timeGame = 0;
 
-  const planeParam = {
+  /*const planeParam = {
     size: 80,
     speed: 0.7,
     typeBase: 1,
@@ -39,7 +39,7 @@
     speed: 0.5,
     typeBase: 2,
     cost: 2,
-  };
+  };*/
 
   const scores = {
     scores: 0,
@@ -78,7 +78,7 @@
   }
 
   // конструктор юнитов
-  class Vehicle {
+  /*class Vehicle {
     constructor({size, speed, typeBase, cost}) {
       this.way = [];
       this.onBase = false;
@@ -86,9 +86,9 @@
       this.speed = speed;
       this.typeBase = typeBase;
       this.cost = cost;
-    }
+    }*/
 
-    culcRandomDirection() {
+    /*culcRandomDirection() {
       const perimeter = window.innerWidth * 2 + window.innerHeight * 2;
       const randomPosition = Math.random() * perimeter;
       const randomAngle = Math.random() * 2 * Math.PI;
@@ -109,9 +109,9 @@
         this.posX = 0;
         this.posY = perimeter - randomPosition;
       }
-    }
+    }*/
 
-    update() {
+   /* update() {
       const sin = this.speedX / Math.sqrt(this.speedX * this.speedX + this.speedY * this.speedY);
       let angle = Math.asin(sin) * 180 / Math.PI;
       if (this.speedY > 0) {
@@ -121,10 +121,10 @@
       this.obj.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
       this.obj.style.left = `${this.posX}px`;
       this.obj.style.top = `${this.posY}px`;
-    }
-  }
+    }*/
+  // }
 
-  class Plane extends Vehicle {
+  /*class Plane extends Vehicle {
     constructor() {
       super(planeParam);
     }
@@ -139,14 +139,14 @@
       wrapper.appendChild(planeObj);
       this.obj = planeObj;
     }
-  }
+  }*/
 
-  class Helicopter extends Vehicle {
+  /*class Helicopter extends Vehicle {
     constructor() {
       super(helicopterParam);
-    }
+    }*/
 
-    drow() {
+    /*drow() {
       const size = this.unitSize;
       const heliObj = document.createElement('div');
       heliObj.id = 'heliSVG';
@@ -223,7 +223,7 @@
         elem.setAttribute('transform', `rotate(${deggreBlade + 6} ${size / 2} ${size / 2})`);
       });
     }
-  }
+  }*/
 
   bases.push(new Base(29.7, 33, 8, 9, 0, 1));
   bases.push(new Base(64.3, 51.5, 8, 8.2, 139, 1));
