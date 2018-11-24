@@ -2,8 +2,8 @@
   'use strict';
 
   class HelicopterModel extends window.airPlaneMVC.VehicleModel {
-    drow() {
-      this._view.drow();
+    draw() {
+      this._view.draw();
     }
   }
 

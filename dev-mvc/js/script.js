@@ -58,7 +58,11 @@
       self.posX = (window.innerWidth * w / 100) / 2 + window.innerWidth * l / 100;
       self.posY = (window.innerHeight * h / 100) / 2 + window.innerHeight * t / 100;
 
-      function createBase() {
+      bases.push(new Base(29.7, 33, 8, 9, 0, 1));
+      bases.push(new Base(64.3, 51.5, 8, 8.2, 139, 1));
+      bases.push(new Base(59.2, 71.3, 4, 8.2, 0, 2));
+
+      /*function createBase() {
         const baseObj = document.createElement('div');
         baseObj.style.position = 'absolute';
         baseObj.style.backgroundColor = '#5860f0';
@@ -75,7 +79,7 @@
 
       createBase();
     }
-  }
+  }*/
 
   // конструктор юнитов
   /*class Vehicle {
@@ -225,9 +229,7 @@
     }
   }*/
 
-  bases.push(new Base(29.7, 33, 8, 9, 0, 1));
-  bases.push(new Base(64.3, 51.5, 8, 8.2, 139, 1));
-  bases.push(new Base(59.2, 71.3, 4, 8.2, 0, 2));
+
 
   function startGame() {
     if (playing === false) {

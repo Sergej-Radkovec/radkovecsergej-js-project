@@ -3,7 +3,7 @@
 
   class HelicopterView extends window.airPlaneMVC.VehicleView {
 
-    drow() {
+    draw() {
       const size = this._model.unitSize;
       const heliObj = document.createElement('div');
       heliObj.id = 'heliSVG';

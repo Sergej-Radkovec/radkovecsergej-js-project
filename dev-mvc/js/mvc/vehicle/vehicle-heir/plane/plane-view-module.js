@@ -2,7 +2,7 @@
   'use strict';
 
   class PlaneView extends window.airPlaneMVC.VehicleView {
-    drow() {
+    draw() {
       const planeObj = document.createElement('img');
       planeObj.src = 'img/plane.svg';
       planeObj.style.position = 'absolute';
