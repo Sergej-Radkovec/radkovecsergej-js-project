@@ -41,13 +41,13 @@
     cost: 2,
   };*/
 
-  const scores = {
-    scores: 0,
-    update() {
-      const scoresObj = document.getElementById('scores');
-      scoresObj.textContent = `${this.scores}`;
-    },
-  };
+  // const scores = {
+  //   scores: 0,
+  //   update() {
+  //     const scoresObj = document.getElementById('scores');
+  //     scoresObj.textContent = `${this.scores}`;
+  //   },
+  // };
 
   class Base {
     constructor(t, l, w, h, angle, type) {
