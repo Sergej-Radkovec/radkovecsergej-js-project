@@ -21,7 +21,9 @@
     }
 
     updateView() {
-      this._view.update();
+      if(this._view) {
+        this._view.update();
+      }
     }
 
     culcRandomDirection() {
