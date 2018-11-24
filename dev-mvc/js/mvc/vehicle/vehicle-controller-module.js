@@ -2,12 +2,8 @@
   'use strict';
 
   class VehicleController {
-    constructor() {
-      this.model = null;
-    }
-
-    start(model) {
-      this.model = model;
+    constructor(model) {
+      this._model = modell;
     }
 
 

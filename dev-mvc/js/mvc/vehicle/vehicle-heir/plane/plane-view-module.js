@@ -1,16 +1,7 @@
 (function (window) {
   'use strict';
 
-  class PlaneView {
-    constructor() {
-      this.model = null;
-      this.obj = null;
-    }
-
-    start(model) {
-      this.model = model;
-    }
-
+  class PlaneView extends window.airPlaneMVC.VehicleView {
     drow() {
       const planeObj = document.createElement('img');
       planeObj.src = 'img/plane.svg';

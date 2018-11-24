@@ -13,13 +13,15 @@
       this.speedY = null;
       this.posX = null;
       this.posY = null;
-      this.view = null;
+      this._view = null;
     }
 
-    start(view) {
-      if(this.view) {
-        this.view.update();
-      }
+    start (view) {
+      this._view = view
+    }
+
+    updateView() {
+      this._view.update();
     }
 
     culcRandomDirection() {

@@ -1,18 +1,10 @@
 (function (window) {
   'use strict';
 
-  class HelicopterView {
-    constructor() {
-      this.model = null;
-      this.obj = null;
-    }
-
-    start(model) {
-      this.model = model;
-    }
+  class HelicopterView extends window.airPlaneMVC.VehicleView {
 
     drow() {
-      const size = this.model.unitSize;
+      const size = this._model.unitSize;
       const heliObj = document.createElement('div');
       heliObj.id = 'heliSVG';
       heliObj.style.width = `${size}px`;
@@ -79,11 +71,11 @@
       this.obj = heliObj;
     }
 
-    ////////////////Как улучшить update///////
+
     update() {
-      super.model.view.update();
+      super.update();
       let blades = Array.from(this.obj.querySelectorAll('g line'));
-      let size = this.unitSize;
+      let size = this._model.unitSize;
       blades.forEach((elem) => {
         const deggreBlade = elem.transform.animVal[0].angle;
         elem.setAttribute('transform', `rotate(${deggreBlade + 6} ${size / 2} ${size / 2})`);
