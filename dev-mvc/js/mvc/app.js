@@ -19,7 +19,11 @@ function initApp() {
   const helicopterView = new airPlaneMVC.HelicopterView(helicopter);
   const planeView = new airPlaneMVC.PlaneView(plane);
 
-  console.log(planeView);
+  const score = new airPlaneMVC.ScoreModel(0);
+  const scoreView =new airPlaneMVC.ScoreView(score, document.getElementById('scores'));
+
+
+
 }
 
 initApp();
