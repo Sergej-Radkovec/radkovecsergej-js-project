@@ -335,6 +335,8 @@
 
   let target;
 
+  document.addEventListener('mousedown', startSetWay, false);
+
   function startSetWay(event) {
     event = event || window.event;
     event.preventDefault();
@@ -365,12 +367,12 @@
   }
 
   // сетаем координаты
-  function setWay(e) {
+  /*function setWay(e) {
     e = e || window.event;
     e.preventDefault();
     let x = e.pageX;
     let y = e.pageY;
-    target.way.unshift([x, y]);
+    target.way.unshift([x, y]);*/
     bases.forEach(base => {
       if (base.type === target.typeBase) {
         base.obj.style.opacity = 0.5;
@@ -402,7 +404,7 @@
   }
 
   // поиск сталкновений
-  function findCrash() {
+  /*function findCrash() {
     const length = units.length;
     for (let i = 0; i < length; i++) {
       for (let j = i + 1; j < length; j++) {
@@ -414,7 +416,7 @@
         }
       }
     }
-  }
+  }*/
 
   // function gameover() {
   //   playing = false;

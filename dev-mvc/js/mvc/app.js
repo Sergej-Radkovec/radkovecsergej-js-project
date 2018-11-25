@@ -19,6 +19,7 @@ function initApp() {
 
   const airPlane = new airPlaneMVC.GameModel(15, 400);
   const airPlaneController = new airPlaneMVC.GameController(airPlane, startButton);
+  const airPlaneView = new airPlaneMVC.GameView(airPlane);
 
 
   console.log(airPlaneController);

@@ -80,12 +80,12 @@
       if (Math.random() < 0.65) {
         generateUnit = new airPlaneMVC.PlaneModel(this.planeParam);
         const planeView = new airPlaneMVC.PlaneView(generateUnit);
-        const helicopterController = new airPlaneMVC.VehicleController(generateUnit, this);
+        const helicopterController = new airPlaneMVC.VehicleController(generateUnit, planeView, this);
         generateUnit.start(planeView);
       } else {
         generateUnit = new airPlaneMVC.HelicopterModel(this.helicopterParam);
         const helicopterView = new airPlaneMVC.HelicopterView(generateUnit);
-        const helicopterController = new airPlaneMVC.VehicleController(generateUnit, this);
+        const helicopterController = new airPlaneMVC.VehicleController(generateUnit, helicopterView, this);
         generateUnit.start(helicopterView);
       }
 

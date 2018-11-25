@@ -23,6 +23,7 @@
     updateView() {
       if(this._view) {
         this._view.update();
+        this._view.drawWay();
       }
     }
 
@@ -99,6 +100,14 @@
         this.speedY *= -1;
       }
       this.updateView();
+    }
+
+    setWay(e) {
+      e = e || window.event;
+      e.preventDefault();
+      let x = e.pageX;
+      let y = e.pageY;
+      this.way.unshift([x, y]);
     }
   }
 
