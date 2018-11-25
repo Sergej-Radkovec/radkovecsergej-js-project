@@ -9,6 +9,9 @@
       this._frequency = frequency;
       this._generateSpeed = this._frequency * generateSpeed;
       this.timeGame = 0;
+      this._view = null;
+      this.newUnit = new airPlaneMVC.Events(this);
+
       this.helicopterParam = {
         size: 80,
         speed: 0.5,
@@ -23,6 +26,16 @@
       };
     }
 
+    start(view) {
+      this._view = view;
+    }
+
+    updateView() {
+      if(this._view) {
+        this._view.update();
+      }
+    }
+
     startGame() {
       if (this.playing === false) {
         this.playing = true;
@@ -32,13 +45,14 @@
     }
 
     game() {
-      if (playing) {
+      if (this.playing) {
         this.timeGame += this._frequency;
         if (this.timeGame % this._generateSpeed === 0 || this.timeGame === this._frequency) {
           this.units.push(this.generateUnit());
         }
       }
       this.units = [];
+    console.log('идёт игра');
     }
 
     generateUnit() {
@@ -54,6 +68,8 @@
         generateUnit.start(helicopterView);
       }
 
+      console.log('сгенерирован юнит');
+      this.newUnit.notify(generateUnit);
       generateUnit.culcRandomDirection();
       generateUnit.draw();
       return generateUnit;

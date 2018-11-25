@@ -4,9 +4,14 @@
   class GameController {
     constructor(model, startButton) {
       this._model = model;
-      this._startButton = _startButton;
+      this._startButton = startButton;
+      this._startButton.addEventListener('click', this.startGame, false);
+    }
+
+    startGame() {
+      this._model.startGame();
+      console.log(this._model);
       this._gameTimer = setInterval(this._model.game, this._model._frequency);
-      this._startButton.addEventListener('click', this._model.startGame, false);
     }
   }
 

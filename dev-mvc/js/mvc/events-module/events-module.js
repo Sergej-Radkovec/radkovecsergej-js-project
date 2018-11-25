@@ -1,6 +1,7 @@
-'use strict';
 
 (function (window) {
+  'use strict';
+
   class Events {
     constructor(sender) {
       this._sender = sender;
