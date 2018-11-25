@@ -70,6 +70,10 @@
       }
     }
 
+    gameover() {
+      this.playing = false;
+    }
+
     generateUnit() {
       let generateUnit;
 

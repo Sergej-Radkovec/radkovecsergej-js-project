@@ -416,8 +416,8 @@
     }
   }
 
-  function gameover() {
-    playing = false;
+  // function gameover() {
+  //   playing = false;
 
     toggleSaveControls(true);
 
