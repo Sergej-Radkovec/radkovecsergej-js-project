@@ -41,7 +41,7 @@
       if (this.playing === false) {
         this.playing = true;
       }
-
+      this.units.forEach(unit => unit._view.obj.remove());
       this.units = [];
     }
 
@@ -52,8 +52,22 @@
           this.units.push(this.generateUnit());
         }
         this.newLoop.notify();
+        this.findCrash();
       }
-      this.units = [];
+    }
+
+    findCrash() {
+      const length = this.units.length;
+      for (let i = 0; i < length; i++) {
+        for (let j = i + 1; j < length; j++) {
+          const dist = Math.sqrt((this.units[j].posX - this.units[i].posX) * (this.units[j].posX - this.units[i].posX)
+            + (this.units[j].posY - this.units[i].posY) * (this.units[j].posY - this.units[i].posY));
+          const ultraDist = (this.units[i].unitSize / 2 + this.units[j].unitSize / 2) * 0.8;
+          if (dist < ultraDist) {
+            this.gameover();
+          }
+        }
+      }
     }
 
     generateUnit() {

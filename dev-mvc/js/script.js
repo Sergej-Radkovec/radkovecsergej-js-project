@@ -236,8 +236,8 @@
       playing = true;
     }
 
-    units.forEach(unit => unit.obj.remove());
-    units = [];
+    // units.forEach(unit => unit.obj.remove());
+    // units = [];
     scores.scores = 0;
 
     document.addEventListener('mousedown', startSetWay, false);
@@ -254,9 +254,9 @@
         units.push(generateUnit());
       }
       ctx.clearRect(0, 0, canvas.width, canvas.height);*/
-      units.forEach((unit, index) => {
-        positionUnit(unit);
-        drawWay(unit);
+      // units.forEach((unit, index) => {
+      //   positionUnit(unit);
+      //   drawWay(unit);
         unitOnBase(unit, index);
       });
       scores.update();
