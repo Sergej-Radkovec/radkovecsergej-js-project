@@ -1,16 +1,16 @@
 'use strict';
 
 (function () {
-  const startButton = document.getElementById('start');
+ /* const startButton = document.getElementById('start');
   const title = document.getElementById('title');
   const userName = document.getElementById('userName');
   const storeUserNameButton = document.getElementById('storeUserName');
   const gameObj = document.getElementById('game');
   const canvas = document.querySelector('#canvas');
   const ctx = canvas.getContext('2d');
-  const wrapper = document.getElementById('wrapper');
+  const wrapper = document.getElementById('wrapper');*/
 
-  wrapper.style.width = `${window.innerWidth}px`;
+  /*wrapper.style.width = `${window.innerWidth}px`;
   wrapper.style.height = `${window.innerHeight}px`;
   wrapper.style.backgroundImage = 'url(img/bg.jpg)';
   wrapper.style.backgroundSize = `${window.innerWidth}px ${window.innerHeight}px`;
@@ -18,15 +18,15 @@
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
   canvas.style.position = 'absolute';
+*/
+  /*let units = [];
+  const bases = [];*/
 
-  let units = [];
-  const bases = [];
-
-  let playing = false;
+  /*let playing = false;
   const frequency = 15;
   const generateSpeed = frequency * 200;
   let timeGame = 0;
-
+*/
   /*const planeParam = {
     size: 80,
     speed: 0.7,
@@ -49,7 +49,7 @@
   //   },
   // };
 
-  class Base {
+ /* class Base {
     constructor(t, l, w, h, angle, type) {
       const self = this;
       self.type = type;
@@ -61,7 +61,7 @@
       bases.push(new Base(29.7, 33, 8, 9, 0, 1));
       bases.push(new Base(64.3, 51.5, 8, 8.2, 139, 1));
       bases.push(new Base(59.2, 71.3, 4, 8.2, 0, 2));
-
+*/
       /*function createBase() {
         const baseObj = document.createElement('div');
         baseObj.style.position = 'absolute';
@@ -243,17 +243,17 @@
     document.addEventListener('mousedown', startSetWay, false);
   }
 
-  startButton.addEventListener('click', startGame, false);
+  /*startButton.addEventListener('click', startGame, false);
 
-  setInterval(game, frequency);
+  setInterval(game, frequency);*/
 
-  function game() {
+  /*function game() {
     if (playing) {
       timeGame += frequency;
       if (timeGame % generateSpeed === 0 || timeGame === frequency) {
         units.push(generateUnit());
       }
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);*/
       units.forEach((unit, index) => {
         positionUnit(unit);
         drawWay(unit);
@@ -265,7 +265,7 @@
   }
 
   // генерируем юниты
-  function generateUnit() {
+  /*function generateUnit() {
     let generateUnit;
 
     if (Math.random() < 0.65) {
@@ -277,10 +277,10 @@
     generateUnit.culcRandomDirection();
     generateUnit.drow();
     return generateUnit;
-  }
+  }*/
 
   // Изменяем положение обьектов
-  function positionUnit(elem) {
+  /*function positionUnit(elem) {
     let cutLength;
     let sin;
     let cos;
@@ -330,7 +330,7 @@
       elem.speedY *= -1;
     }
     elem.update();
-  }
+  }*/
   // добавление траектории
 
   let target;

@@ -1,4 +1,30 @@
 function initApp() {
+  const startButton = document.getElementById('start');
+  const title = document.getElementById('title');
+  const userName = document.getElementById('userName');
+  const storeUserNameButton = document.getElementById('storeUserName');
+  const gameObj = document.getElementById('game');
+  const canvas = document.querySelector('#canvas');
+  const ctx = canvas.getContext('2d');
+  const wrapper = document.getElementById('wrapper');
+
+  wrapper.style.width = `${window.innerWidth}px`;
+  wrapper.style.height = `${window.innerHeight}px`;
+  wrapper.style.backgroundImage = 'url(img/bg.jpg)';
+  wrapper.style.backgroundSize = `${window.innerWidth}px ${window.innerHeight}px`;
+
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  canvas.style.position = 'absolute';
+
+  let units = [];
+  const bases = [];
+
+  let playing = false;
+  const frequency = 15;
+  const generateSpeed = frequency * 200;
+  let timeGame = 0;
+
   const helicopterParam = {
     size: 80,
     speed: 0.5,
@@ -40,11 +66,10 @@ function initApp() {
     type: 1,
   };
 
-  const helicopter = new airPlaneMVC.HelicopterModel(helicopterParam);
-  const plane = new airPlaneMVC.PlaneModel(planeParam);
 
-  const helicopterView = new airPlaneMVC.HelicopterView(helicopter);
-  const planeView = new airPlaneMVC.PlaneView(plane);
+
+
+
 
   const score = new airPlaneMVC.ScoreModel(0);
   const scoreView =new airPlaneMVC.ScoreView(score, document.getElementById('scores'));
@@ -58,8 +83,60 @@ function initApp() {
   const base3 = new airPlaneMVC.BaseModel(base3Param);
   const base3View = new airPlaneMVC.BaseView(base3, document.getElementById('game'));
 
+  bases.push(base1);
+  bases.push(base2);
+  bases.push(base3);
 
+  function startGame() {
+    if (playing === false) {
+      playing = true;
+    }
 
+    units.forEach(unit => unit._view.obj.remove());
+    units = [];
+    score.scores = 0;
+
+    // document.addEventListener('mousedown', startSetWay, false);
+  }
+
+  startButton.addEventListener('click', startGame, false);
+
+  setInterval(game, frequency);
+
+  function game() {
+    if (playing) {
+      timeGame += frequency;
+      if (timeGame % generateSpeed === 0 || timeGame === frequency) {
+        units.push(generateUnit());
+      }
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      // units.forEach((unit, index) => {
+      //   positionUnit(unit);
+      //   drawWay(unit);
+      //   unitOnBase(unit, index);
+      // });
+      // scores.update();
+      // findCrash();
+    }
+  }
+
+  function generateUnit() {
+    let generateUnit;
+
+    if (Math.random() < 0.65) {
+      generateUnit = new airPlaneMVC.PlaneModel(planeParam);
+      const planeView = new airPlaneMVC.PlaneView(generateUnit);
+      generateUnit.start(planeView);
+    } else {
+      generateUnit = new airPlaneMVC.HelicopterModel(helicopterParam);
+      const helicopterView = new airPlaneMVC.HelicopterView(generateUnit);
+      generateUnit.start(helicopterView);
+    }
+
+    generateUnit.culcRandomDirection();
+    generateUnit.draw();
+    return generateUnit;
+  }
 }
 
 initApp();

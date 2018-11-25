@@ -16,8 +16,8 @@
       this._view = null;
     }
 
-    start (view) {
-      this._view = view
+    start(view) {
+      this._view = view;
     }
 
     updateView() {
@@ -47,6 +47,58 @@
         this.posX = 0;
         this.posY = perimeter - randomPosition;
       }
+    }
+
+    positionUnit() {
+      let cutLength;
+      let sin;
+      let cos;
+      const posEnd = this.way[this.way.length - 1];
+
+      if (!this.way.length) {
+        this.posX += this.speedX;
+        this.posY += this.speedY;
+      } else {
+        cutLength = Math.sqrt((posEnd[0] - this.posX) * (posEnd[0] - this.posX)
+          + (posEnd[1] - this.posY) * (posEnd[1] - this.posY));
+        sin = (posEnd[0] - this.posX) / cutLength;
+        cos = (posEnd[1] - this.posY) / cutLength;
+        if (cutLength > this.speed) {
+          this.speedX = sin * this.speed;
+          this.speedY = cos * this.speed;
+          this.posX += this.speedX;
+          this.posY += this.speedY;
+        } else {
+          if (this.way.length === 1) {
+            this.way.pop();
+            this.posX += this.speedX;
+            this.posY += this.speedY;
+          } else {
+            const posStart = this.way.pop();
+            const remained = this.speed - cutLength;
+            cutLength = Math.sqrt((posEnd[0] - this.posX) * (posEnd[0] - this.posX)
+              + (posEnd[1] - this.posY) * (posEnd[1] - this.posY));
+            sin = (posEnd[0] - posStart[0]) / cutLength;
+            cos = (posEnd[1] - posStart[1]) / cutLength;
+            this.posX = posStart[0] + sin * remained;
+            this.posY = posStart[1] + cos * remained;
+          }
+        }
+      }
+
+      if (this.posX < 0) {
+        this.speedX *= -1;
+      }
+      if (this.posX > window.innerWidth) {
+        this.speedX *= -1;
+      }
+      if (this.posY < 0) {
+        this.speedY *= -1;
+      }
+      if (this.posY > window.innerHeight) {
+        this.speedY *= -1;
+      }
+      this.updateView();
     }
   }
 
