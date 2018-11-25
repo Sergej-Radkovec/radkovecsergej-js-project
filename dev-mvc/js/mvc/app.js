@@ -17,13 +17,13 @@ function initApp() {
   canvas.height = window.innerHeight;
   canvas.style.position = 'absolute';
 
-  let units = [];
+  /*let units = [];
   const bases = [];
 
   let playing = false;
   const frequency = 15;
   const generateSpeed = frequency * 200;
-  let timeGame = 0;
+  let timeGame = 0;*/
 
   const helicopterParam = {
     size: 80,
