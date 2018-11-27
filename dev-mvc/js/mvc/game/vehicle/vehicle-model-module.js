@@ -16,6 +16,7 @@
       this._view = null;
       this.mouseDownOnUnit = new airPlaneMVC.Events(this);
       this.mouseUpOnUnit = new airPlaneMVC.Events(this);
+      this.unitOnBase = new airPlaneMVC.Events(this);
     }
 
     start(view) {
@@ -58,50 +59,55 @@
       let cos;
       const posEnd = this.way[this.way.length - 1];
 
-      if (!this.way.length) {
-        this.posX += this.speedX;
-        this.posY += this.speedY;
+      if (this.way.length === 0 && this.onBase) {
+        this.unitOnBase.notify();
+        this.onBase = false;
       } else {
-        cutLength = Math.sqrt((posEnd[0] - this.posX) * (posEnd[0] - this.posX)
-          + (posEnd[1] - this.posY) * (posEnd[1] - this.posY));
-        sin = (posEnd[0] - this.posX) / cutLength;
-        cos = (posEnd[1] - this.posY) / cutLength;
-        if (cutLength > this.speed) {
-          this.speedX = sin * this.speed;
-          this.speedY = cos * this.speed;
+        if (!this.way.length) {
           this.posX += this.speedX;
           this.posY += this.speedY;
         } else {
-          if (this.way.length === 1) {
-            this.way.pop();
+          cutLength = Math.sqrt((posEnd[0] - this.posX) * (posEnd[0] - this.posX)
+            + (posEnd[1] - this.posY) * (posEnd[1] - this.posY));
+          sin = (posEnd[0] - this.posX) / cutLength;
+          cos = (posEnd[1] - this.posY) / cutLength;
+          if (cutLength > this.speed) {
+            this.speedX = sin * this.speed;
+            this.speedY = cos * this.speed;
             this.posX += this.speedX;
             this.posY += this.speedY;
           } else {
-            const posStart = this.way.pop();
-            const remained = this.speed - cutLength;
-            cutLength = Math.sqrt((posEnd[0] - this.posX) * (posEnd[0] - this.posX)
-              + (posEnd[1] - this.posY) * (posEnd[1] - this.posY));
-            sin = (posEnd[0] - posStart[0]) / cutLength;
-            cos = (posEnd[1] - posStart[1]) / cutLength;
-            this.posX = posStart[0] + sin * remained;
-            this.posY = posStart[1] + cos * remained;
+            if (this.way.length === 1) {
+              this.way.pop();
+              this.posX += this.speedX;
+              this.posY += this.speedY;
+            } else {
+              const posStart = this.way.pop();
+              const remained = this.speed - cutLength;
+              cutLength = Math.sqrt((posEnd[0] - this.posX) * (posEnd[0] - this.posX)
+                + (posEnd[1] - this.posY) * (posEnd[1] - this.posY));
+              sin = (posEnd[0] - posStart[0]) / cutLength;
+              cos = (posEnd[1] - posStart[1]) / cutLength;
+              this.posX = posStart[0] + sin * remained;
+              this.posY = posStart[1] + cos * remained;
+            }
           }
         }
-      }
 
-      if (this.posX < 0) {
-        this.speedX *= -1;
+        if (this.posX < 0) {
+          this.speedX *= -1;
+        }
+        if (this.posX > window.innerWidth) {
+          this.speedX *= -1;
+        }
+        if (this.posY < 0) {
+          this.speedY *= -1;
+        }
+        if (this.posY > window.innerHeight) {
+          this.speedY *= -1;
+        }
+        this.updateView();
       }
-      if (this.posX > window.innerWidth) {
-        this.speedX *= -1;
-      }
-      if (this.posY < 0) {
-        this.speedY *= -1;
-      }
-      if (this.posY > window.innerHeight) {
-        this.speedY *= -1;
-      }
-      this.updateView();
     }
 
     setWay(e) {

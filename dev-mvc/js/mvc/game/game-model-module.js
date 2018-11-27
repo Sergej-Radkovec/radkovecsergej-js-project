@@ -140,6 +140,11 @@
           }
         });
       });
+      generateUnit.unitOnBase.attach((sender) => {
+        const index = this.units.indexOf(sender);
+        this.units[index]._view.obj.remove();
+        this.units.splice(index, 1);
+      });
       this.newUnit.notify(generateUnit);
       this.newUnit._listeners = [];
 

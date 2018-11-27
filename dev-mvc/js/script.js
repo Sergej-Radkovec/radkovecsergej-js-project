@@ -385,7 +385,7 @@
   }
 
   // рисуем путь юнита
-  function drawWay(unit) {
+  /*function drawWay(unit) {
     if (unit.way.length) {
       if (unit.onBase) {
         ctx.strokeStyle = '#31C46F';
@@ -401,7 +401,7 @@
       unit.way.forEach(pos => ctx.lineTo(pos[0], pos[1]));
       ctx.stroke();
     }
-  }
+  }*/
 
   // поиск сталкновений
   /*function findCrash() {

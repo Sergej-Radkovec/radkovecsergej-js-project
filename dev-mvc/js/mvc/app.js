@@ -17,7 +17,7 @@ function initApp() {
   canvas.height = window.innerHeight;
   canvas.style.position = 'absolute';
 
-  const airPlane = new airPlaneMVC.GameModel(15, 40000000);
+  const airPlane = new airPlaneMVC.GameModel(15, 400);
   const airPlaneController = new airPlaneMVC.GameController(airPlane, startButton);
   const airPlaneView = new airPlaneMVC.GameView(airPlane);
 
