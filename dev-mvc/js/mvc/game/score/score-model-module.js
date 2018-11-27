@@ -20,6 +20,11 @@
     get fullScores() {
       return this._data;
     }
+
+    addScores(newValue) {
+      this._data += newValue;
+      this.updateView();
+    }
   }
 
   window.airPlaneMVC = window.airPlaneMVC || {};

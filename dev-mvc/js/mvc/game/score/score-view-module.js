@@ -8,7 +8,7 @@
     }
 
     update() {
-      this._selector.innerHTML = this._model.get();
+      this._selector.innerHTML = `Scores: ${this._model.fullScores}`;
     }
   }
 

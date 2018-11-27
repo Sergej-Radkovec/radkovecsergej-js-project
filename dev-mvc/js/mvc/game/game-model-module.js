@@ -12,6 +12,7 @@
       this._view = null;
       this.newUnit = new airPlaneMVC.Events(this);
       this.newLoop = new airPlaneMVC.Events(this);
+      this.addScore = new airPlaneMVC.Events(this);
 
       this.helicopterParam = {
         size: 80,
@@ -53,6 +54,18 @@
         angle: 0,
         type: 2,
       };
+
+      this.bases.push(new airPlaneMVC.BaseModel(this.base1Param));
+      this.bases.push(new airPlaneMVC.BaseModel(this.base2Param));
+      this.bases.push(new airPlaneMVC.BaseModel(this.base3Param));
+      this.bases.forEach(base => {
+        base.start(new airPlaneMVC.BaseView(base, document.getElementById('game')));
+      });
+
+      const scoreModel = new airPlaneMVC.ScoreModel(0);
+      const scoreView = new airPlaneMVC.ScoreView(scoreModel, document.getElementById('scores'));
+      scoreModel.start(scoreView);
+      const scoreController = new airPlaneMVC.ScoreController(scoreModel, this);
     }
 
     start(view) {
@@ -71,13 +84,6 @@
       }
       this.units.forEach(unit => unit._view.obj.remove());
       this.units = [];
-
-      this.bases.push(new airPlaneMVC.BaseModel(this.base1Param));
-      this.bases.push(new airPlaneMVC.BaseModel(this.base2Param));
-      this.bases.push(new airPlaneMVC.BaseModel(this.base3Param));
-      this.bases.forEach(base => {
-        base.start(new airPlaneMVC.BaseView(base, document.getElementById('game')));
-      });
     }
 
     game() {
@@ -133,6 +139,7 @@
           }
         });
       });
+
       generateUnit.mouseUpOnUnit.attach((sender) => {
         this.bases.forEach((base) => {
           if (base.type === sender.typeBase) {
@@ -140,7 +147,9 @@
           }
         });
       });
+
       generateUnit.unitOnBase.attach((sender) => {
+        this.addScore.notify(generateUnit.cost);
         const index = this.units.indexOf(sender);
         this.units[index]._view.obj.remove();
         this.units.splice(index, 1);
