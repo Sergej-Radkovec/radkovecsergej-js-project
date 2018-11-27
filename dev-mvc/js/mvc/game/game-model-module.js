@@ -30,18 +30,18 @@
       this.base1Param = {
         top: 29.7,
         left: 33,
-        width: 11,
+        width: 20,
         height: 9,
         angle: 0,
         type: 1,
       };
 
       this.base2Param = {
-        top: 64.3,
-        left: 51.5,
-        width: 11,
+        top: 57.3,
+        left: 50.5,
+        width: 18,
         height: 8.2,
-        angle: 139.1,
+        angle: 138,
         type: 1,
       };
 
@@ -128,6 +128,13 @@
         this.bases.forEach((base) => {
           if (base.type === sender.typeBase) {
             base.draw();
+          }
+        });
+      });
+      generateUnit.mouseUpOnUnit.attach((sender) => {
+        this.bases.forEach((base) => {
+          if (base.type === sender.typeBase) {
+            base.hide();
           }
         });
       });

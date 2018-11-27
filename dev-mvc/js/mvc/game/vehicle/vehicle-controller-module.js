@@ -36,6 +36,7 @@
       }
 
       document.addEventListener('mouseup', () => {
+        this._model.hideBase();
         document.removeEventListener('mousemove', this.setWay, false);
       });
 

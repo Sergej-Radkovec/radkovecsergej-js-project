@@ -15,6 +15,7 @@
       this.posY = null;
       this._view = null;
       this.mouseDownOnUnit = new airPlaneMVC.Events(this);
+      this.mouseUpOnUnit = new airPlaneMVC.Events(this);
     }
 
     start(view) {
@@ -113,6 +114,10 @@
 
     findBase() {
       this.mouseDownOnUnit.notify();
+    }
+
+    hideBase() {
+      this.mouseUpOnUnit.notify();
     }
   }
 
