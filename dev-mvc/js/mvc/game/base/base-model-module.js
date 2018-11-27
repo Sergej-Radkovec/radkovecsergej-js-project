@@ -2,28 +2,28 @@
   'use strict';
 
   class BaseModel {
-    constructor({ posY, posX, width, height, angle, type }) {
+    constructor({ top, left, width, height, angle, type }) {
       this.type = type;
-      this.sizeX = width;
-      this.sizeY = height;
-      this.posX = posX;
-      this.posY = posY;
-      this.angle = angle
+      this.sizeX = window.innerWidth * width / 100;
+      this.sizeY = window.innerHeight * height / 100;
+      this.posX = (window.innerWidth * width / 100) / 2 + window.innerWidth * left / 100;
+      this.posY = (window.innerHeight * height / 100) / 2 + window.innerHeight * top / 100;
+      this.angle = angle;
     }
 
     start(view) {
       this._view = view;
     }
 
-    drawBase() {
+    draw() {
       if (this._view) {
         this._view.draw();
       }
     }
 
-    updateView() {
+    hide() {
       if (this._view) {
-        this._view.update();
+        this._view.hide();
       }
     }
   }

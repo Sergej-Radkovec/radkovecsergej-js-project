@@ -355,7 +355,7 @@
     });
   }
   // Функция проверяющая являеться ли элемент пэрентом ждя другого элемента
-  function isDescendant(parent, child) {
+  /*function isDescendant(parent, child) {
     let node = child.parentNode;
     while (node != null) {
       if (node === parent) {
@@ -364,7 +364,7 @@
       node = node.parentNode;
     }
     return false;
-  }
+  }*/
 
   // сетаем координаты
   /*function setWay(e) {

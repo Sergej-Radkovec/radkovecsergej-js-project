@@ -19,11 +19,39 @@
         typeBase: 2,
         cost: 2,
       };
+
       this.planeParam = {
         size: 80,
         speed: 0.7,
         typeBase: 1,
         cost: 1,
+      };
+
+      this.base1Param = {
+        top: 29.7,
+        left: 33,
+        width: 11,
+        height: 9,
+        angle: 0,
+        type: 1,
+      };
+
+      this.base2Param = {
+        top: 64.3,
+        left: 51.5,
+        width: 11,
+        height: 8.2,
+        angle: 139.1,
+        type: 1,
+      };
+
+      this.base3Param = {
+        top: 59.2,
+        left: 71.3,
+        width: 4,
+        height: 8.2,
+        angle: 0,
+        type: 2,
       };
     }
 
@@ -43,6 +71,13 @@
       }
       this.units.forEach(unit => unit._view.obj.remove());
       this.units = [];
+
+      this.bases.push(new airPlaneMVC.BaseModel(this.base1Param));
+      this.bases.push(new airPlaneMVC.BaseModel(this.base2Param));
+      this.bases.push(new airPlaneMVC.BaseModel(this.base3Param));
+      this.bases.forEach(base => {
+        base.start(new airPlaneMVC.BaseView(base, document.getElementById('game')));
+      });
     }
 
     game() {
@@ -80,7 +115,7 @@
       if (Math.random() < 0.65) {
         generateUnit = new airPlaneMVC.PlaneModel(this.planeParam);
         const planeView = new airPlaneMVC.PlaneView(generateUnit);
-        const helicopterController = new airPlaneMVC.VehicleController(generateUnit, planeView, this);
+        const planeController = new airPlaneMVC.VehicleController(generateUnit, planeView, this);
         generateUnit.start(planeView);
       } else {
         generateUnit = new airPlaneMVC.HelicopterModel(this.helicopterParam);
@@ -89,6 +124,13 @@
         generateUnit.start(helicopterView);
       }
 
+      generateUnit.mouseDownOnUnit.attach((sender) => {
+        this.bases.forEach((base) => {
+          if (base.type === sender.typeBase) {
+            base.draw();
+          }
+        });
+      });
       this.newUnit.notify(generateUnit);
       this.newUnit._listeners = [];
 

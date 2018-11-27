@@ -10,16 +10,20 @@
     draw() {
       const baseObj = document.createElement('div');
       baseObj.style.position = 'absolute';
-      baseObj.style.backgroundColor = '#5860f0';
+      baseObj.style.backgroundColor = '#dfe6f0';
       baseObj.style.borderRadius = '50px';
-      baseObj.style.width = `${this._model.sizeX}%`;
-      baseObj.style.height = `${this._model.sizeY}%`;
-      baseObj.style.left = `${this._model.posX}%`;
-      baseObj.style.top = `${this._model.posY}%`;
-      baseObj.style.opacity = 0;
-      baseObj.style.transform = `rotate(${this._model.angle}deg`;
+      baseObj.style.width = `${this._model.sizeX}px`;
+      baseObj.style.height = `${this._model.sizeY}px`;
+      baseObj.style.left = `${this._model.posX}px`;
+      baseObj.style.top = `${this._model.posY}px`;
+      baseObj.style.opacity = 0.5;
+      baseObj.style.transform = `translate(-50%,-50%) rotate(${this._model.angle}deg)`;
       this._conteiner.appendChild(baseObj);
       this.obj = baseObj;
+    }
+
+    hide() {
+      this.obj.remove();
     }
   }
 

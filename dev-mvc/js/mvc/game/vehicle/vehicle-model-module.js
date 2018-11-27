@@ -14,6 +14,7 @@
       this.posX = null;
       this.posY = null;
       this._view = null;
+      this.mouseDownOnUnit = new airPlaneMVC.Events(this);
     }
 
     start(view) {
@@ -108,6 +109,10 @@
       let x = e.pageX;
       let y = e.pageY;
       this.way.unshift([x, y]);
+    }
+
+    findBase() {
+      this.mouseDownOnUnit.notify();
     }
   }
 

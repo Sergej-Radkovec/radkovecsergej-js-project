@@ -6,6 +6,7 @@
       this._model = model;
       this._view = view;
       this._game = game;
+      this.setWay = this.setWay.bind(this);
 
       this._game.newLoop.attach(() => {
         this._model.positionUnit();
@@ -18,6 +19,10 @@
       document.addEventListener('mousedown', () => this.startSetWay(), false);
     }
 
+    setWay() {
+      this._model.setWay();
+    }
+
     startSetWay(event) {
       event = event || window.event;
       event.preventDefault();
@@ -25,12 +30,13 @@
 
         this._model.onBase = false;
         this._model.way = [];
+        this._model.findBase();
 
-        document.onmousemove = () => this._model.setWay();
+        document.addEventListener('mousemove', this.setWay, false);
       }
 
       document.addEventListener('mouseup', () => {
-        document.onmousemove = null;
+        document.removeEventListener('mousemove', this.setWay, false);
       });
 
       function isDescendant(parent, child) {
