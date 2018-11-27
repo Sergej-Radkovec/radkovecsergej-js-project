@@ -112,6 +112,10 @@
       this.way.unshift([x, y]);
     }
 
+    wayOnBase() {
+      this.onBase = true;
+    }
+
     findBase() {
       this.mouseDownOnUnit.notify();
     }

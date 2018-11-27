@@ -111,18 +111,20 @@
 
     generateUnit() {
       let generateUnit;
+      let view;
 
       if (Math.random() < 0.65) {
         generateUnit = new airPlaneMVC.PlaneModel(this.planeParam);
-        const planeView = new airPlaneMVC.PlaneView(generateUnit);
-        const planeController = new airPlaneMVC.VehicleController(generateUnit, planeView, this);
-        generateUnit.start(planeView);
+        view = new airPlaneMVC.PlaneView(generateUnit);
+
       } else {
         generateUnit = new airPlaneMVC.HelicopterModel(this.helicopterParam);
-        const helicopterView = new airPlaneMVC.HelicopterView(generateUnit);
-        const helicopterController = new airPlaneMVC.VehicleController(generateUnit, helicopterView, this);
-        generateUnit.start(helicopterView);
+        view = new airPlaneMVC.HelicopterView(generateUnit);
       }
+
+      const controller = new airPlaneMVC.VehicleController(generateUnit, view, this);
+      controller.addBase(this.bases);
+      generateUnit.start(view);
 
       generateUnit.mouseDownOnUnit.attach((sender) => {
         this.bases.forEach((base) => {

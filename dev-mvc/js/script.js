@@ -376,10 +376,10 @@
     bases.forEach(base => {
       if (base.type === target.typeBase) {
         base.obj.style.opacity = 0.5;
-        if (Math.abs(x - base.posX) < base.sizeX / 4 && Math.abs(y - base.posY) < base.sizeY / 4) {
+        /*if (Math.abs(x - base.posX) < base.sizeX / 4 && Math.abs(y - base.posY) < base.sizeY / 4) {
           target.onBase = true;
           document.removeEventListener('mousemove', setWay);
-        }
+        }*/
       }
     });
   }

@@ -6,6 +6,7 @@
       this._model = model;
       this._view = view;
       this._game = game;
+      this._base = null;
       this.setWay = this.setWay.bind(this);
 
       this._game.newLoop.attach(() => {
@@ -19,8 +20,24 @@
       document.addEventListener('mousedown', () => this.startSetWay(), false);
     }
 
-    setWay() {
-      this._model.setWay();
+    addBase(base) {
+      this._base = base;
+    }
+
+    setWay(e) {
+      e = e || window.event;
+      e.preventDefault();
+      this._model.setWay(e);
+
+      this._base.forEach(base => {
+        if (base.type === this._model.typeBase) {
+          if (Math.abs(e.pageX - base.posX) < base.sizeX / 4
+            && Math.abs(e.pageY - base.posY) < base.sizeY / 4) {
+            this._model.wayOnBase();
+            document.removeEventListener('mousemove', this.setWay, false);
+          }
+        }
+      });
     }
 
     startSetWay(event) {
