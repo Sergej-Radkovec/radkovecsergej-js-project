@@ -65,9 +65,15 @@
       });
 
       const scoreModel = new airPlaneMVC.ScoreModel(0);
+      this._scores = scoreModel;
       const scoreView = new airPlaneMVC.ScoreView(scoreModel, document.getElementById('scores'));
       scoreModel.start(scoreView);
       const scoreController = new airPlaneMVC.ScoreController(scoreModel, this);
+
+      const recordsModel = new airPlaneMVC.RecordsModel('RADKOVEC_AIRCONTROL_RECORDS', 'http://fe.it-academy.by/AjaxStringStorage2.php', 10);
+      const recordsView = new airPlaneMVC.RecordsView(recordsModel, 'recordsTable');
+      const recordsController = new airPlaneMVC.RecordsController(recordsModel, scoreModel, document.getElementById('showRecords'), document.getElementById('storeUserName'), document.getElementById('userName'));
+      recordsModel.start(recordsView);
     }
 
     start(view) {
@@ -120,6 +126,7 @@
       this.playing = false;
       this._view.toggleSaveControls(true);
       this.switchToState({ page: 'menu' });
+      this._view.writeScore(this._scores.fullScores);
       this.gameOver.notify();
     }
 

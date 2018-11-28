@@ -2,15 +2,18 @@
   'use strict';
 
   class GameController {
-    constructor(model, startButton, recordButton, menuButton) {
+    constructor(model, startButton, recordButton, menuButton, storeUserNameButton) {
       this._model = model;
       this._startButton = startButton;
       this._recordButton = recordButton;
       this._menuButton = menuButton;
+      this._storeUserNameButton = storeUserNameButton;
       this._gameTimerID = null;
       this._startButton.addEventListener('click', () => this.startGame(), false);
       this._recordButton.addEventListener('click', () => this._model.switchToState({ page: 'records' }), false);
       this._menuButton.addEventListener('click', () => this._model.switchToState({ page: 'menu' }), false);
+      this._menuButton.addEventListener('click', () => this._model.switchToState({ page: 'menu' }), false);
+      this._storeUserNameButton.addEventListener('click', () => this._model._view.toggleSaveControls(false), false);
 
       window.addEventListener('hashchange', () => this._model.renderNewState(), false);
     }
