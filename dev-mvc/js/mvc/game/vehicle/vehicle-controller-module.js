@@ -8,16 +8,22 @@
       this._game = game;
       this._base = null;
       this.setWay = this.setWay.bind(this);
+      this.startSetWay = this.startSetWay.bind(this);
 
       this._game.newLoop.attach(() => {
         this._model.positionUnit();
       });
+
       this._game.newUnit.attach(() => {
         this._model.draw();
         this._model.culcRandomDirection();
       });
 
-      document.addEventListener('mousedown', () => this.startSetWay(), false);
+      this._game.gameOver.attach(() => {
+        document.removeEventListener('mousedown', this.startSetWay, false);
+      });
+
+      document.addEventListener('mousedown', this.startSetWay, false);
     }
 
     addBase(base) {

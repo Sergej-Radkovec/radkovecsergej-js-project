@@ -22,6 +22,11 @@
         document.getElementById(entry.id).style.display = showElement ? 'block' : 'none';
       });
     }
+
+    toggleSaveControls(show) {
+      document.getElementById('userName').style.display = show ? 'block' : 'none';
+      document.getElementById('storeUserName').style.display = show ? 'block' : 'none';
+    }
   }
 
   window.airPlaneMVC = window.airPlaneMVC || {};

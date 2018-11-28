@@ -14,6 +14,7 @@
       this.newUnit = new airPlaneMVC.Events(this);
       this.newLoop = new airPlaneMVC.Events(this);
       this.addScore = new airPlaneMVC.Events(this);
+      this.gameOver = new airPlaneMVC.Events(this);
 
       this.helicopterParam = {
         size: 80,
@@ -83,7 +84,10 @@
       if (this.playing === false) {
         this.playing = true;
       }
-      this.units.forEach(unit => unit._view.obj.remove());
+      this.units.forEach(unit => {
+        unit._view.obj.remove();
+        unit.way = [];
+      });
       this.units = [];
     }
 
@@ -114,6 +118,9 @@
 
     gameover() {
       this.playing = false;
+      this._view.toggleSaveControls(true);
+      this.switchToState({ page: 'menu' });
+      this.gameOver.notify();
     }
 
     generateUnit() {

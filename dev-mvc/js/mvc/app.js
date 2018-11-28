@@ -3,8 +3,6 @@ function initApp() {
   const recordButton = document.getElementById('showRecords');
   const menuButton = document.getElementById('backToMenu');
   const title = document.getElementById('title');
-  const userName = document.getElementById('userName');
-  const storeUserNameButton = document.getElementById('storeUserName');
   const gameObj = document.getElementById('game');
   const canvas = document.querySelector('#canvas');
   const ctx = canvas.getContext('2d');

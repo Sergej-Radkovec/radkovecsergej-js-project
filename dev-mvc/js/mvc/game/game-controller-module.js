@@ -7,7 +7,7 @@
       this._startButton = startButton;
       this._recordButton = recordButton;
       this._menuButton = menuButton;
-      this._gameTimer = null;
+      this._gameTimerID = null;
       this._startButton.addEventListener('click', () => this.startGame(), false);
       this._recordButton.addEventListener('click', () => this._model.switchToState({ page: 'records' }), false);
       this._menuButton.addEventListener('click', () => this._model.switchToState({ page: 'menu' }), false);
@@ -16,9 +16,10 @@
     }
 
     startGame() {
+      clearInterval( this._gameTimerID);
       this._model.startGame();
-      this._gameTimer = setInterval(() => this._model.game(), this._model._frequency);
-      this._model.switchToState({ page: 'game' })
+      this._gameTimerID = setInterval(() => this._model.game(), this._model._frequency);
+      this._model.switchToState({ page: 'game' });
     }
   }
 

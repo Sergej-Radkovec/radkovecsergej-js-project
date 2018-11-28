@@ -419,13 +419,13 @@
   }*/
 
   function gameover() {
-    playing = false;
+    /*playing = false;
 
-    toggleSaveControls(true);
+    toggleSaveControls(true);*/
 
     document.removeEventListener('mousedown', startSetWay, false);
     title.innerHTML = `Игра окончена! (Вы набрали: ${Math.round(scores.scores)} очков)`;
-    location.hash = encodeURIComponent(JSON.stringify({ page: 'menu' }));
+    /*location.hash = encodeURIComponent(JSON.stringify({ page: 'menu' }));*/
   }
 
   storeUserNameButton.addEventListener('click', storeUserNameButtonHandler, false);
