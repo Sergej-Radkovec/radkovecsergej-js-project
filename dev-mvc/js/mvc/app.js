@@ -1,5 +1,6 @@
 function initApp() {
   const startButton = document.getElementById('start');
+  const recordButton = document.getElementById('showRecords');
   const title = document.getElementById('title');
   const userName = document.getElementById('userName');
   const storeUserNameButton = document.getElementById('storeUserName');
@@ -18,8 +19,10 @@ function initApp() {
   canvas.style.position = 'absolute';
 
   const airPlane = new airPlaneMVC.GameModel(15, 400);
-  const airPlaneController = new airPlaneMVC.GameController(airPlane, startButton);
   const airPlaneView = new airPlaneMVC.GameView(airPlane);
+  airPlane.start(airPlaneView);
+  const airPlaneController = new airPlaneMVC.GameController(airPlane, startButton, recordButton);
+  airPlane.renderNewState();
 
 
 

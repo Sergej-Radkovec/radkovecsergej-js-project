@@ -10,6 +10,7 @@
       this._generateSpeed = this._frequency * generateSpeed;
       this.timeGame = 0;
       this._view = null;
+      this._state = null;
       this.newUnit = new airPlaneMVC.Events(this);
       this.newLoop = new airPlaneMVC.Events(this);
       this.addScore = new airPlaneMVC.Events(this);
@@ -158,6 +159,35 @@
       this.newUnit._listeners = [];
 
       return generateUnit;
+    }
+
+    renderNewState() {
+      const hash = window.location.hash;
+      this._state = decodeURIComponent(hash.substr(1));
+
+      if (this._state === '') {
+        this._state = { page: 'menu' };
+      } else {
+        this._state = JSON.parse(this._state);
+      }
+
+      switch(this._state.page) {
+        case 'menu':
+          this._view.changePage();
+          break;
+        case 'game':
+          this._view.changePage();
+          break;
+        case 'records':
+          this._view.changePage();
+          records.getHighscores();
+          break;
+      }
+    }
+
+    switchToState(state) {
+      this._state = state;
+      location.hash = encodeURIComponent(JSON.stringify(state));
     }
   }
 

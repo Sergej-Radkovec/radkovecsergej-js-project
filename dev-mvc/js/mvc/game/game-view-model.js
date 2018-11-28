@@ -10,6 +10,18 @@
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       });
     }
+
+    changePage() {
+      const stateElements = [
+        { state: 'menu', id: 'menu' },
+        { state: 'game', id: 'game' },
+        { state: 'records', id: 'recordsMenu' }];
+
+      stateElements.forEach(entry => {
+        const showElement = entry.state === this._model._state.page;
+        document.getElementById(entry.id).style.display = showElement ? 'block' : 'none';
+      });
+    }
   }
 
   window.airPlaneMVC = window.airPlaneMVC || {};

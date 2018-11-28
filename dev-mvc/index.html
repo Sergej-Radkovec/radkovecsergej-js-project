@@ -22,20 +22,19 @@
         <h2 id="title"></h2>
         <input type="text" placeholder="Введите Ваше имя" id='userName'>
         <input type="button" value="Запомнить меня" id='storeUserName'>
-        <input type="button" value="Таблица рекордов" id='showRecords' onclick="switchToRecords()">
+        <input type="button" value="Таблица рекордов" id='showRecords'>
         <ul>
           <li>1. Рисуйте траекторию для посадки</li>
           <li>2. После посадки добавляються очки</li>
           <li>3. При столкновении игра заканчивается.</li>
         </ul>
-        <input type="button" value="Старт" id="start" onclick="switchToGame()">
+        <input type="button" value="Старт" id="start">
       </div>
       <div id="recordsMenu">
         <input type="button" value="Вернуться в меню" id='backToMenu' onclick="switchToMenu()">
         <div id='recordsTable'></div>
       </div>
     </div>
-    <script src="js/spa.js"></script>
     <script src="js/mvc/game/vehicle/vehicle-view-module.js"></script>
     <script src="js/mvc/game/vehicle/vehicle-model-module.js"></script>
     <script src="js/mvc/game/vehicle/vehicle-controller-module.js"></script>

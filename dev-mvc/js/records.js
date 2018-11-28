@@ -98,7 +98,7 @@ const records = new function () {
     $('#recordsTable').empty().append(pageHTML);
   }
 
-  function AddUsers() {
+  function addUsers() {
     password = Math.random();
     $.ajax({
       url: ajaxHandlerScript,
@@ -150,7 +150,7 @@ const records = new function () {
   this.addNewResult = function (userNameToSave, scoreToSave) {
     userName = userNameToSave || 'Anonymous';
     score = Math.round(scoreToSave);
-    AddUsers();
+    addUsers();
   };
 
   this.getHighscores = function () {

@@ -231,17 +231,17 @@
 
 
 
-  function startGame() {
+  /*function startGame() {
     if (playing === false) {
       playing = true;
-    }
+    }*/
 
     // units.forEach(unit => unit.obj.remove());
     // units = [];
     scores.scores = 0;
 
-    document.addEventListener('mousedown', startSetWay, false);
-  }
+    /*document.addEventListener('mousedown', startSetWay, false);
+  }*/
 
   /*startButton.addEventListener('click', startGame, false);
 
@@ -257,12 +257,12 @@
       // units.forEach((unit, index) => {
       //   positionUnit(unit);
       //   drawWay(unit);
-        unitOnBase(unit, index);
+        /*unitOnBase(unit, index);
       });
       scores.update();
       findCrash();
     }
-  }
+  }*/
 
   // генерируем юниты
   /*function generateUnit() {
@@ -333,9 +333,9 @@
   }*/
   // добавление траектории
 
-  let target;
+ /* let target;*/
 
-  document.addEventListener('mousedown', startSetWay, false);
+  /*document.addEventListener('mousedown', startSetWay, false);
 
   function startSetWay(event) {
     event = event || window.event;
@@ -353,7 +353,7 @@
       document.removeEventListener('mousemove', setWay);
       bases.forEach(base => base.obj.style.opacity = 0);
     });
-  }
+  }*/
   // Функция проверяющая являеться ли элемент пэрентом ждя другого элемента
   /*function isDescendant(parent, child) {
     let node = child.parentNode;
@@ -373,9 +373,9 @@
     let x = e.pageX;
     let y = e.pageY;
     target.way.unshift([x, y]);*/
-    bases.forEach(base => {
+    /*bases.forEach(base => {
       if (base.type === target.typeBase) {
-        base.obj.style.opacity = 0.5;
+        base.obj.style.opacity = 0.5;*/
         /*if (Math.abs(x - base.posX) < base.sizeX / 4 && Math.abs(y - base.posY) < base.sizeY / 4) {
           target.onBase = true;
           document.removeEventListener('mousemove', setWay);
@@ -418,8 +418,8 @@
     }
   }*/
 
-  // function gameover() {
-  //   playing = false;
+  function gameover() {
+    playing = false;
 
     toggleSaveControls(true);
 
@@ -441,11 +441,11 @@
     storeUserNameButton.style.display = show ? 'block' : 'none';
   }
 
-  function unitOnBase(unit, index) {
+  /*function unitOnBase(unit, index) {
     if (unit.onBase && unit.way.length === 0) {
       unit.obj.remove();
       units.splice(index, 1);
       scores.scores += unit.cost;
     }
-  }
+  }*/
 })();
