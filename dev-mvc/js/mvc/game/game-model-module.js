@@ -171,18 +171,7 @@
         this._state = JSON.parse(this._state);
       }
 
-      switch(this._state.page) {
-        case 'menu':
-          this._view.changePage();
-          break;
-        case 'game':
-          this._view.changePage();
-          break;
-        case 'records':
-          this._view.changePage();
-          records.getHighscores();
-          break;
-      }
+      this._view.changePage();
     }
 
     switchToState(state) {

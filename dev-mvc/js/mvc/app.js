@@ -1,6 +1,7 @@
 function initApp() {
   const startButton = document.getElementById('start');
   const recordButton = document.getElementById('showRecords');
+  const menuButton = document.getElementById('backToMenu');
   const title = document.getElementById('title');
   const userName = document.getElementById('userName');
   const storeUserNameButton = document.getElementById('storeUserName');
@@ -21,7 +22,7 @@ function initApp() {
   const airPlane = new airPlaneMVC.GameModel(15, 400);
   const airPlaneView = new airPlaneMVC.GameView(airPlane);
   airPlane.start(airPlaneView);
-  const airPlaneController = new airPlaneMVC.GameController(airPlane, startButton, recordButton);
+  const airPlaneController = new airPlaneMVC.GameController(airPlane, startButton, recordButton, menuButton);
   airPlane.renderNewState();
 
 
