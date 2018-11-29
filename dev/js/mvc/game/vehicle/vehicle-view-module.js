@@ -17,9 +17,8 @@
           angle = 180 - angle;
         }
 
-        this.obj.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
-        this.obj.style.left = `${this._model.posX}px`;
-        this.obj.style.top = `${this._model.posY}px`;
+        this.obj.style.transform = `translate(${this._model.posX - this._model.unitSize / 2}px,
+         ${this._model.posY - this._model.unitSize/2}px) translateZ(0) rotate(${angle}deg)`;
       }
     }
 

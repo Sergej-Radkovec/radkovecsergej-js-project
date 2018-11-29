@@ -25,7 +25,7 @@
 
       this.planeParam = {
         size: 80,
-        speed: 0.7,
+        speed: 0.8,
         typeBase: 1,
         cost: 1,
       };
@@ -183,12 +183,9 @@
 
     renderNewState() {
       const hash = window.location.hash;
-      this._state = decodeURIComponent(hash.substr(1));
 
-      if (this._state === '') {
+      if (decodeURIComponent(hash.substr(1)) === '') {
         this._state = { page: 'menu' };
-      } else {
-        this._state = JSON.parse(this._state);
       }
 
       if (this._state.page !== 'game' && this.playing) {

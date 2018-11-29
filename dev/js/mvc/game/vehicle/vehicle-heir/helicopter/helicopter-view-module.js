@@ -78,7 +78,7 @@
       let size = this._model.unitSize;
       blades.forEach((elem) => {
         const deggreBlade = elem.transform.animVal[0].angle;
-        elem.setAttribute('transform', `rotate(${deggreBlade + 6} ${size / 2} ${size / 2})`);
+        elem.setAttribute('transform', `rotate(${deggreBlade + 8} ${size / 2} ${size / 2})`);
       });
     }
   }
