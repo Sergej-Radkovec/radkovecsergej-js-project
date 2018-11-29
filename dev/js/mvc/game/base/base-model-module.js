@@ -1,8 +1,8 @@
 (function (window) {
-  'use strict';
 
   class BaseModel {
     constructor({ top, left, width, height, angle, type }) {
+      this._posision = {top, left, width, height, angle};
       this.type = type;
       this.sizeX = window.innerWidth * width / 100;
       this.sizeY = window.innerHeight * height / 100;
@@ -17,7 +17,13 @@
 
     draw() {
       if (this._view) {
-        this._view.draw();
+        this._view.draw(this._posision);
+      }
+    }
+
+    show() {
+      if (this._view) {
+        this._view.show();
       }
     }
 

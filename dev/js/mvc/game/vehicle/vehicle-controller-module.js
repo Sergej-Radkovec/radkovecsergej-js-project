@@ -1,5 +1,4 @@
 (function (window) {
-  'use strict';
 
   class VehicleController {
     constructor(model, view, game) {
@@ -20,6 +19,7 @@
       });
 
       this._game.gameOver.attach(() => {
+        this._model.unitOnBase.listener = [];
         document.removeEventListener('mousedown', this.startSetWay, false);
       });
 

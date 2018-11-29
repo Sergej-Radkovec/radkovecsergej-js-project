@@ -1,5 +1,4 @@
 (function (window) {
-  'use strict';
 
   class VehicleModel {
     constructor({ size, speed, typeBase, cost }) {

@@ -1,8 +1,7 @@
 (function (window) {
-  'use strict';
 
   class GameController {
-    constructor(model, startButton, recordButton, menuButton, storeUserNameButton) {
+    constructor(model, { startButton, recordButton, menuButton, storeUserNameButton }) {
       this._model = model;
       this._startButton = startButton;
       this._recordButton = recordButton;
@@ -14,6 +13,7 @@
       this._menuButton.addEventListener('click', () => this._model.switchToState({ page: 'menu' }), false);
       this._storeUserNameButton.addEventListener('click', () => this._model._view.toggleSaveControls(false), false);
 
+      window.addEventListener('DOMContentLoaded', () => this._model.updateView(), false);
       window.addEventListener('hashchange', () => this._model.renderNewState(), false);
     }
 

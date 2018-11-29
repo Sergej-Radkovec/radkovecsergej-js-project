@@ -1,5 +1,4 @@
 (function (window) {
-  'use strict';
 
   class RecordsView {
     constructor(model, recordsConteinerID) {

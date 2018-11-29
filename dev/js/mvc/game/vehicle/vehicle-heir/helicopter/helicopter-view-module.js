@@ -1,5 +1,4 @@
 (function (window) {
-  'use strict';
 
   class HelicopterView extends window.airPlaneMVC.VehicleView {
 

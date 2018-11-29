@@ -1,5 +1,4 @@
 (function (window) {
-  'use strict';
 
   class VehicleView {
     constructor(model) {
@@ -17,8 +16,8 @@
           angle = 180 - angle;
         }
 
-        this.obj.style.transform = `translate(${this._model.posX - this._model.unitSize / 2}px,
-         ${this._model.posY - this._model.unitSize/2}px) translateZ(0) rotate(${angle}deg)`;
+        this.obj.style.transform = `translate(${this._model.posX - this.obj.offsetWidth / 2}px,
+         ${this._model.posY - this.obj.offsetHeight / 2}px) translateZ(0) rotate(${angle}deg)`;
       }
     }
 
@@ -29,7 +28,7 @@
         } else {
           this.ctx.strokeStyle = '#C49E4E';
         }
-        this.ctx.lineWidth = 10;
+        this.ctx.lineWidth = window.innerWidth / 140;
         this.ctx.setLineDash([20, 20]);
         this.ctx.lineCap = 'round';
         this.ctx.lineJoin = 'round';

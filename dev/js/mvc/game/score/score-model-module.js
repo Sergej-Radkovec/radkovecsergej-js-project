@@ -1,5 +1,4 @@
 (function (window) {
-  'use strict';
 
   class ScoreModel {
     constructor(data) {
@@ -19,6 +18,10 @@
 
     get fullScores() {
       return this._data;
+    }
+
+    set scores(value) {
+      this._data = value;
     }
 
     addScores(newValue) {

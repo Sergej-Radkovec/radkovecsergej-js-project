@@ -1,5 +1,4 @@
 (function (window) {
-  'use strict';
 
   class VehicleControllerTouch {
     constructor(model, view, game) {

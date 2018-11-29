@@ -1,8 +1,7 @@
 (function (window) {
-  'use strict';
 
   class RecordsController {
-    constructor (model, scoreModel, recordButton, storeUserNameButton, userNameField) {
+    constructor (model, scoreModel, { recordButton, storeUserNameButton, userNameField }) {
       this._model = model;
       this._scoreModel = scoreModel;
       this._recordButton = recordButton;

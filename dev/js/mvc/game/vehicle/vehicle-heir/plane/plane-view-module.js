@@ -1,5 +1,4 @@
 (function (window) {
-  'use strict';
 
   class PlaneView extends window.airPlaneMVC.VehicleView {
     draw() {

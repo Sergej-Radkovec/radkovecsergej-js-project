@@ -1,29 +1,26 @@
 function initApp() {
-  const startButton = document.getElementById('start');
-  const recordButton = document.getElementById('showRecords');
-  const menuButton = document.getElementById('backToMenu');
-  const storeUserNameButton = document.getElementById('storeUserName');
-  const canvas = document.querySelector('#canvas');
-  const wrapper = document.getElementById('wrapper');
 
-  wrapper.style.width = `${window.innerWidth}px`;
-  wrapper.style.height = `${window.innerHeight}px`;
-  wrapper.style.backgroundImage = 'url(img/bg.jpg)';
-  wrapper.style.backgroundSize = `${window.innerWidth}px ${window.innerHeight}px`;
+  const view = {
+    canvas: document.querySelector('#canvas'),
+    wrapper: document.getElementById('wrapper'),
+  }
 
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-  canvas.style.position = 'absolute';
+  const buttons = {
+    startButton: document.getElementById('start'),
+    recordButton: document.getElementById('showRecords'),
+    menuButton: document.getElementById('backToMenu'),
+    storeUserNameButton: document.getElementById('storeUserName'),
+  };
 
   const stateElements = [
     { state: 'menu', id: 'menu' },
     { state: 'game', id: 'game' },
     { state: 'records', id: 'recordsMenu' }];
 
-  const airPlane = new airPlaneMVC.GameModel(16, 350);
-  const airPlaneView = new airPlaneMVC.GameView(airPlane, stateElements);
+  const airPlane = new airPlaneMVC.GameModel(16, 250);
+  const airPlaneView = new airPlaneMVC.GameView(airPlane, stateElements, view);
   airPlane.start(airPlaneView);
-  const airPlaneController = new airPlaneMVC.GameController(airPlane, startButton, recordButton, menuButton, storeUserNameButton);
+  const airPlaneController = new airPlaneMVC.GameController(airPlane, buttons);
   airPlane.renderNewState();
 }
 

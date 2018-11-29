@@ -1,5 +1,4 @@
 (function (window) {
-  'use strict';
 
   class RecordsModel {
     constructor(ajaxName, ajaxHandlerScript, recordsLength) {

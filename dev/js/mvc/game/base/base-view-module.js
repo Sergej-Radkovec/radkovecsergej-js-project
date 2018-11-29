@@ -1,5 +1,4 @@
 (function (window) {
-  'use strict';
 
   class BaseView {
     constructor(model, container) {
@@ -7,23 +6,27 @@
       this._conteiner = container;
     }
 
-    draw() {
+    draw(position) {
       const baseObj = document.createElement('div');
       baseObj.style.position = 'absolute';
       baseObj.style.backgroundColor = '#dfe6f0';
       baseObj.style.borderRadius = '50px';
-      baseObj.style.width = `${this._model.sizeX}px`;
-      baseObj.style.height = `${this._model.sizeY}px`;
-      baseObj.style.left = `${this._model.posX}px`;
-      baseObj.style.top = `${this._model.posY}px`;
-      baseObj.style.opacity = 0.5;
-      baseObj.style.transform = `translate(-50%,-50%) rotate(${this._model.angle}deg)`;
+      baseObj.style.width = `${position.width}%`;
+      baseObj.style.height = `${position.height}%`;
+      baseObj.style.left = `${position.left}%`;
+      baseObj.style.top = `${position.top}%`;
+      baseObj.style.opacity = 0;
+      baseObj.style.transform = `rotate(${position.angle}deg)`;
       this._conteiner.appendChild(baseObj);
       this.obj = baseObj;
     }
 
+    show() {
+      this.obj.style.opacity = 0.5;
+    }
+
     hide() {
-      this.obj.remove();
+      this.obj.style.opacity = 0;
     }
   }
 

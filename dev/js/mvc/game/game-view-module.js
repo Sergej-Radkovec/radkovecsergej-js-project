@@ -1,15 +1,26 @@
 (function (window) {
-  'use strict';
 
   class GameView {
-    constructor(model, stateElements) {
+    constructor(model, stateElements, { canvas, wrapper }) {
       this._model = model;
-      this.canvas = document.querySelector('#canvas');
+      this._canvas = canvas;
+      this._wrapper = wrapper;
       this._stateElements = stateElements;
-      this.ctx = this.canvas.getContext('2d');
+      this._ctx = this._canvas.getContext('2d');
       this._model.newLoop.attach(() => {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this._ctx.clearRect(0, 0, this._canvas.width, this._canvas.height);
       });
+    }
+
+    update() {
+      this._wrapper.style.width = `${window.innerWidth}px`;
+      this._wrapper.style.height = `${window.innerHeight}px`;
+      this._wrapper.style.backgroundImage = 'url(img/bg.jpg)';
+      this._wrapper.style.backgroundSize = `${window.innerWidth}px ${window.innerHeight}px`;
+
+      this._canvas.width = window.innerWidth;
+      this._canvas.height = window.innerHeight;
+      this._canvas.style.position = 'absolute';
     }
 
     changePage() {

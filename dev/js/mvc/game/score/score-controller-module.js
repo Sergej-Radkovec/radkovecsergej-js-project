@@ -1,5 +1,4 @@
 (function (window) {
-  'use strict';
 
   class ScoreController {
     constructor(model, game) {

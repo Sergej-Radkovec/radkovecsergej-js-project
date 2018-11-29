@@ -1,5 +1,4 @@
 (function (window) {
-  'use strict';
 
   class GameModel {
     constructor(frequency, generateSpeed) {
@@ -17,15 +16,15 @@
       this.gameOver = new airPlaneMVC.Events(this);
 
       this.helicopterParam = {
-        size: 80,
-        speed: 0.5,
+        size: Math.round(window.innerWidth / 18),
+        speed:  window.innerWidth / 3200,
         typeBase: 2,
         cost: 2,
       };
 
       this.planeParam = {
-        size: 80,
-        speed: 0.8,
+        size: Math.round(window.innerWidth / 18),
+        speed: window.innerWidth / 1800,
         typeBase: 1,
         cost: 1,
       };
@@ -57,11 +56,18 @@
         type: 2,
       };
 
+      this.elementForRecords = {
+        recordButton: document.getElementById('showRecords'),
+        storeUserNameButton: document.getElementById('storeUserName'),
+        userNameField: document.getElementById('userName'),
+      };
+
       this.bases.push(new airPlaneMVC.BaseModel(this.base1Param));
       this.bases.push(new airPlaneMVC.BaseModel(this.base2Param));
       this.bases.push(new airPlaneMVC.BaseModel(this.base3Param));
       this.bases.forEach(base => {
         base.start(new airPlaneMVC.BaseView(base, document.getElementById('game')));
+        base.draw();
       });
 
       const scoreModel = new airPlaneMVC.ScoreModel(0);
@@ -72,7 +78,7 @@
 
       const recordsModel = new airPlaneMVC.RecordsModel('RADKOVEC_AIRCONTROL_RECORDS', 'http://fe.it-academy.by/AjaxStringStorage2.php', 10);
       const recordsView = new airPlaneMVC.RecordsView(recordsModel, 'recordsTable');
-      const recordsController = new airPlaneMVC.RecordsController(recordsModel, scoreModel, document.getElementById('showRecords'), document.getElementById('storeUserName'), document.getElementById('userName'));
+      const recordsController = new airPlaneMVC.RecordsController(recordsModel, scoreModel, this.elementForRecords);
       recordsModel.start(recordsView);
     }
 
@@ -90,11 +96,16 @@
       if (this.playing === false) {
         this.playing = true;
       }
+
       this.units.forEach(unit => {
         unit._view.obj.remove();
         unit.way = [];
       });
+
+      this.timeGame = 0;
       this.units = [];
+      this._scores.scores = 0;
+      this._scores.updateView();
     }
 
     game() {
@@ -156,7 +167,7 @@
       generateUnit.mouseDownOnUnit.attach((sender) => {
         this.bases.forEach((base) => {
           if (base.type === sender.typeBase) {
-            base.draw();
+            base.show();
           }
         });
       });
@@ -172,7 +183,9 @@
       generateUnit.unitOnBase.attach((sender) => {
         this.addScore.notify(generateUnit.cost);
         const index = this.units.indexOf(sender);
-        this.units[index]._view.obj.remove();
+        if (index !== -1) {
+          this.units[index]._view.obj.remove();
+        }
         this.units.splice(index, 1);
       });
       this.newUnit.notify(generateUnit);

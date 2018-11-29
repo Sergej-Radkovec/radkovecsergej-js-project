@@ -1,5 +1,4 @@
 (function (window) {
-  'use strict';
 
   class HelicopterModel extends window.airPlaneMVC.VehicleModel {
     draw() {
