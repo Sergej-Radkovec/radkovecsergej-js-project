@@ -191,6 +191,14 @@
         this._state = JSON.parse(this._state);
       }
 
+      if (this._state.page !== 'game' && this.playing) {
+        if (confirm('Внимание! Текущий прогресс игры будет потерян')) {
+          this.gameover();
+        } else {
+          this.switchToState({ page: 'game' });
+        }
+      }
+
       this._view.changePage();
     }
 

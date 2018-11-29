@@ -111,8 +111,15 @@
     }
 
     setWay(e) {
-      let x = e.touches[0].pageX;
-      let y = e.touches[0].pageY;
+      let x;
+      let y;
+      if (('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch) {
+        x = e.touches[0].pageX;
+        y = e.touches[0].pageY;
+      } else {
+        x = e.pageX;
+        y = e.pageY;
+      }
       this.way.unshift([x, y]);
     }
 
