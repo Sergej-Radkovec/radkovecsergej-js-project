@@ -111,10 +111,8 @@
     }
 
     setWay(e) {
-      e = e || window.event;
-      e.preventDefault();
-      let x = e.pageX;
-      let y = e.pageY;
+      let x = e.touches[0].pageX;
+      let y = e.touches[0].pageY;
       this.way.unshift([x, y]);
     }
 

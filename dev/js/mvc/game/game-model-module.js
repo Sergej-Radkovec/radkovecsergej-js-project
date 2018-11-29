@@ -133,6 +133,7 @@
     generateUnit() {
       let generateUnit;
       let view;
+      let controller;
 
       if (Math.random() < 0.65) {
         generateUnit = new airPlaneMVC.PlaneModel(this.planeParam);
@@ -143,7 +144,12 @@
         view = new airPlaneMVC.HelicopterView(generateUnit);
       }
 
-      const controller = new airPlaneMVC.VehicleController(generateUnit, view, this);
+      if (('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch) {
+        controller = new airPlaneMVC.VehicleControllerTouch(generateUnit, view, this);
+      } else {
+        controller = new airPlaneMVC.VehicleController(generateUnit, view, this);
+      }
+
       controller.addBase(this.bases);
       generateUnit.start(view);
 
