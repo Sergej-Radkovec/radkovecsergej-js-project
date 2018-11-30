@@ -16,6 +16,7 @@
       this.mouseDownOnUnit = new airPlaneMVC.Events(this);
       this.mouseUpOnUnit = new airPlaneMVC.Events(this);
       this.unitOnBase = new airPlaneMVC.Events(this);
+      this.endWay = new airPlaneMVC.Events(this);
     }
 
     start(view) {
@@ -123,6 +124,7 @@
     }
 
     wayOnBase() {
+      this.endWay.notify();
       this.onBase = true;
     }
 

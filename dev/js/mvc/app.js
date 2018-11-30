@@ -17,11 +17,21 @@ function initApp() {
     { state: 'game', id: 'game' },
     { state: 'records', id: 'recordsMenu' }];
 
+  const sounds = {
+    music: 'audio/audio_music_heartbeats.ogg',
+    startSound: 'audio/audio_start_game.ogg',
+    selectUnitSound: 'audio/audio_plane.ogg',
+    crashSound: 'audio/audio_crashland.ogg',
+    lendedSound: 'audio/audio_landed.ogg',
+    runWaySound: 'audio/audio_runway.ogg',
+  };
+
   const airPlane = new airPlaneMVC.GameModel(16, 200);
   const airPlaneView = new airPlaneMVC.GameView(airPlane, stateElements, view);
-  airPlane.start(airPlaneView);
+  const airPlaneAudio = new airPlaneMVC.GameAudio(sounds);
   const airPlaneController = new airPlaneMVC.GameController(airPlane, buttons);
-  airPlane.renderNewState();
+  airPlane.startView(airPlaneView);
+  airPlane.startAudio(airPlaneAudio);
 }
 
 initApp();

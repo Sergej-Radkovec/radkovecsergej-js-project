@@ -9,6 +9,7 @@
       this._generateSpeed = this._frequency * generateSpeed;
       this.timeGame = 0;
       this._view = null;
+      this._audio = null;
       this._state = null;
       this.newUnit = new airPlaneMVC.Events(this);
       this.newLoop = new airPlaneMVC.Events(this);
@@ -82,8 +83,12 @@
       recordsModel.start(recordsView);
     }
 
-    start(view) {
+    startView(view) {
       this._view = view;
+    }
+
+    startAudio(audio) {
+      this._audio = audio;
     }
 
     updateView() {
@@ -95,6 +100,18 @@
     clearCanvas() {
       if(this._view) {
         this._view.clearCanvas();
+      }
+    }
+
+    playSound(type) {
+      if(this._audio) {
+        this._audio.playSound(type);
+      }
+    }
+
+    pauseSound(type) {
+      if(this._audio) {
+        this._audio.pauseSound(type);
       }
     }
 
@@ -112,6 +129,8 @@
       if (this.playing === false) {
         this.playing = true;
       }
+
+      this.playSound('startSound');
     }
 
     game() {
@@ -134,6 +153,7 @@
             + (this.units[j].posY - this.units[i].posY) * (this.units[j].posY - this.units[i].posY));
           const ultraDist = (this.units[i].unitSize / 2 + this.units[j].unitSize / 2) * 0.8;
           if (dist < ultraDist) {
+            this.playSound('crashSound');
             this.gameover();
           }
         }
@@ -173,6 +193,7 @@
       generateUnit.start(view);
 
       generateUnit.mouseDownOnUnit.attach((sender) => {
+        this.playSound('selectUnitSound');
         this.bases.forEach((base) => {
           if (base.type === sender.typeBase) {
             base.show();
@@ -188,7 +209,10 @@
         });
       });
 
+      generateUnit.endWay.attach(() => this.playSound('runWaySound'));
+
       generateUnit.unitOnBase.attach((sender) => {
+        this.playSound('lendedSound');
         this.addScore.notify(generateUnit.cost);
         const index = this.units.indexOf(sender);
         if (index !== -1) {
@@ -210,6 +234,12 @@
         this._state = { page: 'menu' };
       } else {
         this._state = JSON.parse(this._state);
+      }
+
+      if (this._state.page !== 'game') {
+        this.playSound('gameMusic');
+      } else {
+        this.pauseSound('gameMusic');
       }
 
       if (this._state.page !== 'game' && this.playing) {

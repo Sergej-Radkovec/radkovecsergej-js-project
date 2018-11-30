@@ -13,7 +13,10 @@
       this._menuButton.addEventListener('click', () => this._model.switchToState({ page: 'menu' }), false);
       this._storeUserNameButton.addEventListener('click', () => this._model._view.toggleSaveControls(false), false);
 
-      window.addEventListener('DOMContentLoaded', () => this._model.updateView(), false);
+      window.addEventListener('DOMContentLoaded', () => {
+        this._model.updateView();
+        this._model.renderNewState();
+      }, false);
       window.addEventListener('hashchange', () => this._model.renderNewState(), false);
     }
 
