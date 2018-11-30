@@ -1,6 +1,7 @@
 body, html {
     margin: 0;
     padding: 0;
+    font-family: Arial, sans-serif;
     overflow: hidden;
     touch-action: none;
 }
@@ -12,24 +13,45 @@ body, html {
     left: 50%;
     transform: translate(-50%, -50%);
     border: 1px solid cornflowerblue;
-    border-radius: 20px;
-    background-color: cornflowerblue;
+    background-color: rgba(93, 143, 255, 0.76);
     padding: 20px;
+    font-size: 20px;
+    color: white;
+}
+
+#menu ul {
+    padding-left: 20px;
+}
+
+#menu li {
+    margin-top: 10px;
 }
 
 #storeUserName, #showRecords, #start, #userName, #backToMenu {
     display: block;
     margin: 5px auto;
-    background-color: rgba(173, 255, 47, 0.57);
-    border: 1px solid greenyellow;
-    border-radius: 20px;
+    padding: 5px;
+    background-color: rgba(225, 187, 100, 0.57);
+    border: 1px solid #e4e8ff;
     text-align: center;
+    font-size: 20px;
+    color: antiquewhite;
+    width: 100%;
+    transition: background-color 1s;
+}
+
+#storeUserName:hover, #showRecords:hover, #start:hover, #userName:hover, #backToMenu:hover {
+    background-color: rgba(225, 108, 65, 0.57);
+    cursor: pointer;
+}
+
+#userName::placeholder {
+    color: #335394;
 }
 
 #scores {
     position: absolute;
     margin: 25px;
-    font-family: "Comic Sans MS" sans-serif;
     font-size: 50px;
     font-weight: bold;
     color: antiquewhite;
@@ -49,4 +71,44 @@ body, html {
     overflow: visible;
     background: #ffffff url('../img/preloader.png') no-repeat center center;
     background-size: cover;
+}
+
+#recordsTable table {
+    border-collapse: collapse;
+    border: 2px solid rgba(93, 143, 255, 0.76);
+}
+
+#recordsTable table td {
+    padding: 5px;
+    border: 1px solid maroon;
+    text-align: left
+}
+
+@media  (max-width: 768px ) {
+    #menu, #recordsMenu {
+        transform: translate(-50%, -50%);
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    #menu ul {
+        padding-left: 10px;
+    }
+
+    #menu li {
+        margin-top: 5px;
+    }
+
+    #storeUserName, #showRecords, #start, #userName, #backToMenu {
+        font-size: 15px;
+    }
+
+    #scores {
+        margin: 15px;
+        font-size: 20px;
+    }
+
+    #recordsTable table td {
+        padding: 2px;
+    }
 }
