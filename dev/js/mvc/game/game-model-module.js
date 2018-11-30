@@ -231,7 +231,7 @@
       this._state = decodeURIComponent(hash.substr(1));
 
       if (this._state === '') {
-        this._state = { page: 'menu' };
+        this.switchToState({ page: 'menu' });
       } else {
         this._state = JSON.parse(this._state);
       }
@@ -249,8 +249,7 @@
           this.switchToState({ page: 'game' });
         }
       }
-
-      this._view.changePage();
+      this._view.changePage(this._state);
     }
 
     switchToState(state) {

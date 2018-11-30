@@ -24,9 +24,11 @@
       this._canvas.style.position = 'absolute';
     }
 
-    changePage() {
+    changePage(state) {
+      document.getElementsByTagName('title')[0].innerHTML = `${state.page} | Air control`;
+
       this._stateElements.forEach(entry => {
-        const showElement = entry.state === this._model._state.page;
+        const showElement = entry.state === state.page;
         document.getElementById(entry.id).style.display = showElement ? 'block' : 'none';
       });
     }
