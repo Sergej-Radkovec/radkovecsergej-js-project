@@ -7,9 +7,10 @@
       this._wrapper = wrapper;
       this._stateElements = stateElements;
       this._ctx = this._canvas.getContext('2d');
-      this._model.newLoop.attach(() => {
-        this._ctx.clearRect(0, 0, this._canvas.width, this._canvas.height);
-      });
+    }
+
+    clearCanvas() {
+      this._ctx.clearRect(0, 0, this._canvas.width, this._canvas.height);
     }
 
     update() {

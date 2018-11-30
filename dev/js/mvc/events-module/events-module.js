@@ -8,6 +8,10 @@
       this._listeners = [];
     }
 
+    clearLesteners() {
+      this._listeners = [];
+    }
+
     attach(listener) {
       this._listeners.push(listener);
     }

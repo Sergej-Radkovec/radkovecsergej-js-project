@@ -92,20 +92,26 @@
       }
     }
 
-    startGame() {
-      if (this.playing === false) {
-        this.playing = true;
+    clearCanvas() {
+      if(this._view) {
+        this._view.clearCanvas();
       }
+    }
 
-      this.units.forEach(unit => {
+    startGame() {
+      this.units.forEach((unit, index) => {
         unit._view.obj.remove();
         unit.way = [];
       });
 
-      this.timeGame = 0;
       this.units = [];
+      this.timeGame = 0;
       this._scores.scores = 0;
       this._scores.updateView();
+
+      if (this.playing === false) {
+        this.playing = true;
+      }
     }
 
     game() {
@@ -114,6 +120,7 @@
         if (this.timeGame % this._generateSpeed === 0 || this.timeGame === this._frequency) {
           this.units.push(this.generateUnit());
         }
+        this.clearCanvas();
         this.newLoop.notify();
         this.findCrash();
       }
@@ -135,6 +142,7 @@
 
     gameover() {
       this.playing = false;
+      this.newLoop.clearLesteners();
       this._view.toggleSaveControls(true);
       this.switchToState({ page: 'menu' });
       this._view.writeScore(this._scores.fullScores);
@@ -185,20 +193,23 @@
         const index = this.units.indexOf(sender);
         if (index !== -1) {
           this.units[index]._view.obj.remove();
+          this.units.splice(index, 1);
         }
-        this.units.splice(index, 1);
       });
       this.newUnit.notify(generateUnit);
-      this.newUnit._listeners = [];
+      this.newUnit.clearLesteners();
 
       return generateUnit;
     }
 
     renderNewState() {
       const hash = window.location.hash;
+      this._state = decodeURIComponent(hash.substr(1));
 
-      if (decodeURIComponent(hash.substr(1)) === '') {
+      if (this._state === '') {
         this._state = { page: 'menu' };
+      } else {
+        this._state = JSON.parse(this._state);
       }
 
       if (this._state.page !== 'game' && this.playing) {

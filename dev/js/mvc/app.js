@@ -17,7 +17,7 @@ function initApp() {
     { state: 'game', id: 'game' },
     { state: 'records', id: 'recordsMenu' }];
 
-  const airPlane = new airPlaneMVC.GameModel(16, 250);
+  const airPlane = new airPlaneMVC.GameModel(16, 200);
   const airPlaneView = new airPlaneMVC.GameView(airPlane, stateElements, view);
   airPlane.start(airPlaneView);
   const airPlaneController = new airPlaneMVC.GameController(airPlane, buttons);

@@ -2,8 +2,8 @@
 
   class VehicleView {
     constructor(model) {
-      this.canvas = document.querySelector('#canvas');
-      this.ctx = this.canvas.getContext('2d');
+      this._canvas = document.querySelector('#canvas');
+      this._ctx = this._canvas.getContext('2d');
       this._model = model;
       this.obj = null;
     }
@@ -24,18 +24,18 @@
     drawWay() {
       if (this._model.way.length) {
         if (this._model.onBase) {
-          this.ctx.strokeStyle = '#31C46F';
+          this._ctx.strokeStyle = '#31C46F';
         } else {
-          this.ctx.strokeStyle = '#C49E4E';
+          this._ctx.strokeStyle = '#C49E4E';
         }
-        this.ctx.lineWidth = window.innerWidth / 140;
-        this.ctx.setLineDash([20, 20]);
-        this.ctx.lineCap = 'round';
-        this.ctx.lineJoin = 'round';
-        this.ctx.beginPath();
-        this.ctx.moveTo(this._model.way[0][0], this._model.way[0][1]);
-        this._model.way.forEach(pos => this.ctx.lineTo(pos[0], pos[1]));
-        this.ctx.stroke();
+        this._ctx.lineWidth = window.innerWidth / 140;
+        this._ctx.setLineDash([20, 20]);
+        this._ctx.lineCap = 'round';
+        this._ctx.lineJoin = 'round';
+        this._ctx.beginPath();
+        this._ctx.moveTo(this._model.way[0][0], this._model.way[0][1]);
+        this._model.way.forEach(pos => this._ctx.lineTo(pos[0], pos[1]));
+        this._ctx.stroke();
       }
     }
   }
