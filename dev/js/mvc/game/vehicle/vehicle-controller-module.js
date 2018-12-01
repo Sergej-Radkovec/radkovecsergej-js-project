@@ -54,11 +54,13 @@
         this._model.onBase = false;
         this._model.way = [];
         this._model.findBase();
+        document.body.style.cursor = 'crosshair';
 
         document.addEventListener('mousemove', this.setWay, false);
       }
 
       document.addEventListener('mouseup', () => {
+        document.body.style.cursor = 'default';
         this._model.hideBase();
         document.removeEventListener('mousemove', this.setWay, false);
       });

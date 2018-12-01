@@ -3,6 +3,7 @@
   class PlaneView extends window.airPlaneMVC.VehicleView {
     draw() {
       const planeObj = document.createElement('img');
+      planeObj.id = 'plane';
       planeObj.src = 'img/plane.svg';
       planeObj.style.position = 'absolute';
       planeObj.style.width = `${this._model.unitSize}px`;

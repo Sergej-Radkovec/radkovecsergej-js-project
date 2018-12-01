@@ -17,7 +17,7 @@ body, html {
     padding: 20px;
     font-size: 20px;
     color: white;
-    transition: visibility 0s, opacity 1s linear;
+    transition: visibility 0s, opacity 1s ease-out;;
 }
 
 #menu ul {
@@ -89,6 +89,14 @@ body, html {
     padding: 5px;
     border: 1px solid maroon;
     text-align: left
+}
+
+#plane, #heliSVG {
+    cursor: pointer;
+}
+
+#game div {
+    transition: opacity 0.7s ease-out;
 }
 
 @media  (max-width: 768px ) {
