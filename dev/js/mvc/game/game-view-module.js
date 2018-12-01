@@ -29,7 +29,8 @@
 
       this._stateElements.forEach(entry => {
         const showElement = entry.state === state.page;
-        document.getElementById(entry.id).style.display = showElement ? 'block' : 'none';
+        document.getElementById(entry.id).style.visibility = showElement ? 'visible' : 'hidden';
+        document.getElementById(entry.id).style.opacity = showElement ? '1' : '0';
       });
     }
 

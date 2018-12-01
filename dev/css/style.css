@@ -17,6 +17,7 @@ body, html {
     padding: 20px;
     font-size: 20px;
     color: white;
+    transition: visibility 0s, opacity 1s linear;
 }
 
 #menu ul {
@@ -38,6 +39,12 @@ body, html {
     color: antiquewhite;
     width: 100%;
     transition: background-color 1s;
+}
+
+#userName {
+    background-color: rgba(243, 206, 103, 0.42);
+    border-radius: 15px;
+    width: 98%;
 }
 
 #storeUserName:hover, #showRecords:hover, #start:hover, #userName:hover, #backToMenu:hover {
